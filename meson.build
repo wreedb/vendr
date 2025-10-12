@@ -1,6 +1,6 @@
 project(
   'vendr', 'cpp',
-  meson_version: '>= 1.9.1',
+  meson_version: '>= 1.6.1',
   default_options: ['cpp_std=c++23'],
   license: 'GPL-3.0-or-later',
   license_files: 'LICENSE',
@@ -59,6 +59,8 @@ endif
 
 config_h.set10('TOML_HEADER_ONLY', get_option('tomlpp-header-only'))
 config_h.set10('TOML_SHARED_LIB', get_option('tomlpp-static'))
+
+config_h.set_quoted('PROJECT_VERSION', meson.project_version())
 
 configure_file(
   output: 'config.hpp',

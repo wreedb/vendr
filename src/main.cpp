@@ -16,6 +16,8 @@
 
 namespace bp = boost::program_options;
 
+static const std::string projectVersion = std::string(PROJECT_VERSION);
+
 int main(int argc, char *argv[]) {
     
     if (argc > 0) {
@@ -43,7 +45,7 @@ int main(int argc, char *argv[]) {
         bp::store(bp::parse_command_line(argc, argv, optDesc), optMap);
        
         if (optMap.count("version")) {
-            std::cout << "version 0.0.1" << std::endl;
+            logInfo("version {}", projectVersion);
             return 0;
         }
 
