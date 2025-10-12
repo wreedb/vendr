@@ -1,0 +1,11 @@
+[wrap-file]
+directory = mbedtls-3.6.4
+source_url = https://github.com/Mbed-TLS/mbedtls/releases/download/mbedtls-3.6.4/mbedtls-3.6.4-easy-make-lib.tar.xz
+source_filename = mbedtls-3.6.4-easy-make-lib.tar.xz
+source_hash = 6a7ed66b4aca38836f0eff8d8fba72992bf0c7326337608ef01de469fd8368bd
+patch_directory = mbedtls
+
+[provide]
+mbedtls = mbedtls_dep
+mbedcrypto = mbedcrypto_dep
+mbedx509 = mbedx509_dep

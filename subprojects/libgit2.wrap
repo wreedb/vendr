@@ -1,0 +1,5 @@
+[wrap-file]
+directory = libgit2-1.9.1
+source_url = https://github.com/libgit2/libgit2/archive/refs/tags/v1.9.1.tar.gz
+source_filename = v1.9.1.tar.gz
+source_hash = 14cab3014b2b7ad75970ff4548e83615f74d719afe00aa479b4a889c1e13fc00

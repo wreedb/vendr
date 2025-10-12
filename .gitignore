@@ -1,0 +1,9 @@
+bld/
+.bld/
+build/
+.build/
+deps/*
+*.o
+*.a
+subprojects/packagecache/
+subprojects/.wraplock

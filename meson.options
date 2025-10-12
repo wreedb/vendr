@@ -1,0 +1,39 @@
+option('boost-po-static',
+       type: 'boolean',
+       value: false,
+       description: 'link to boost_program_options statically')
+
+option('tomlpp-static',
+       type: 'boolean',
+       value: false,
+       description: 'link to tomlplusplus statically')
+
+option('tomlpp-header-only',
+       type: 'boolean',
+       value: false,
+       description: 'build with tomlplusplus in header-only mode')
+
+option('libgit2-static',
+       type: 'boolean',
+       value: false,
+       description: 'link to libgit2 statically')
+
+option('zlib-static',
+       type: 'boolean',
+       value: false,
+       description: 'link zlib statically')
+
+option('mbedtls-static',
+       type: 'boolean',
+       value: false,
+       description: 'link mbedtls statically')
+
+option('mbedcrypto-static',
+       type: 'boolean',
+       value: false,
+       description: 'link mbedcrypto statically')
+
+option('mbedx509-static',
+       type: 'boolean',
+       value: false,
+       description: 'link mbedx509 statically')

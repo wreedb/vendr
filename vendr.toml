@@ -1,0 +1,23 @@
+[[repos]]
+name = "tomlplusplus"
+url = "https://github.com/marzer/tomlplusplus.git"
+path = "deps/tomlplusplus"
+tag = "v3.4.0"
+
+[[repos]]
+name = "program_options"
+url = "https://github.com/boostorg/program_options.git"
+path = "deps/program_options"
+tag = "boost-1.89.0"
+
+[[repos]]
+name = "mbedtls"
+url = "https://github.com/mbed-tls/mbedtls.git"
+path = "deps/mbedtls"
+tag = "v3.6.4"
+
+[[repos]]
+name = "libgit2"
+url = "https://github.com/libgit2/libgit2.git"
+path = "deps/libgit2"
+tag = "v1.9.1"
