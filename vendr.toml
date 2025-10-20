@@ -1,0 +1,21 @@
+[[repos]]
+name = "tomlplusplus"
+url = "https://github.com/marzer/tomlplusplus.git"
+path = "deps/tomlplusplus"
+tag = "v3.4.0"
+
+[[repos]]
+name = "libgit2"
+url = "https://github.com/libgit2/libgit2.git"
+path = "deps/libgit2"
+tag = "v1.9.1"
+
+[[files]]
+name = "args"
+url = "https://github.com/taywee/args/archive/refs/tags/6.4.7.tar.gz"
+path = "deps/args-6.4.7.tar.gz"
+
+[[files]]
+name = "cpr"
+url = "https://github.com/libcpr/cpr/archive/refs/tags/1.12.0.tar.gz"
+path = "deps/cpr-1.12.0.tar.gz"
