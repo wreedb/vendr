@@ -35,7 +35,6 @@ Unless linked statically at build time, the following shared libraries will
 required at runtime:
 - [libtomlplusplus](https://github.com/marzer/tomlplusplus)
 - [libcurl](https://curl.se/libcurl)
-- [libcpr](https://github.com/libcpr/cpr)
 - [libgit2](https://github.com/libgit2/libgit2)
 
 Pre-built Executables and Packages
