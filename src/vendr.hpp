@@ -184,6 +184,17 @@ namespace vendr {
 	    }
 
 
+        try {
+            fs::path p(outputFile);
+            fs::create_directories(p.parent_path());
+
+        } catch (const fs::filesystem_error& e) {
+            vendr::log::err("failed to create parent directories for {}!", outputFile);
+            std::cerr << e.what() << "\n";
+            return 1;
+
+        }
+
 	    if (!overwrite) {
 		    // --overwrite not passed, check output path, but don't delete existing file or
 		    // download again
@@ -191,6 +202,7 @@ namespace vendr {
 			    vendr::log::warn("file {} already exists, not overwriting", outputFile);
 			    return 0;
 		    }
+
 	    } else {
 		    if (fs::exists(fs::path(outputFile))) {
 			    vendr::log::warn("file {} already exists, overwriting", outputFile);
