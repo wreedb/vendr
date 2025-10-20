@@ -9,6 +9,7 @@ project(
   ]
 )
 
+cmake = import('cmake')
 config_h = configuration_data()
 cxx = meson.get_compiler('cpp')
 
@@ -95,16 +96,31 @@ endif
 
 deps = []
 
-cpr_dep = cxx.find_library(
-  'cpr',
-  required: true,
-  static: get_option('static-libcpr'))
+# check system for libcpr; its uncommon 
+# to have so we fallback to cmake subproject, using
+# the system curl to link it.
+system_cpr = cxx.find_library('cpr', required: false)
+if system_cpr.found()
+  cpr_dep = cxx.find_library(
+    'cpr',
+    required: true,
+    static: get_option('static-libcpr'))
+else
+  cpr_cm_opts = cmake.subproject_options()
+  cpr_cm_opts.set_install(false)
+  cpr_cm_opts.add_cmake_defines({
+    'CPR_USE_SYSTEM_CURL': true,
+    'BUILD_SHARED_LIBS': false})
+  cpr_proj = cmake.subproject('cpr', options: cpr_cm_opts)
+  cpr_dep = cpr_proj.dependency('cpr')
+endif
 
 curl_dep = dependency(
   'libcurl',
   required: true,
   static: get_option('static-libcurl'))
 
+# ignore these warnings from tomlplusplus when using the header-only version
 if get_option('tomlpp-header-only')
   add_project_arguments('-Wno-deprecated-literal-operator', language: 'cpp')
   config_h.set('TOML_HEADER_ONLY', 1)
@@ -123,13 +139,12 @@ libgit2_dep = dependency(
     static: get_option('static-libgit2'))
 
 deps += libgit2_dep
-deps += curl_dep
 deps += cpr_dep
+deps += curl_dep
 
-# pkg-config sets this define when linking tomlplusplus;
-# if linking static set it to 0
-
+# finalize/write the config.hpp
 config_h.set_quoted('PROJECT_VERSION', meson.project_version())
+config_h.set10('SYSTEM_ARGSHXX', get_option('system-argshxx'))
 configure_file(output: 'config.hpp', configuration: config_h)
 
 bin = executable(

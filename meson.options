@@ -27,10 +27,10 @@ option('static-cpp',
        value: false,
        description: 'link c++ stdlib static')
 
-option('vendored-argshxx',
+option('system-argshxx',
        type: 'boolean',
-       value: true,
-       description: 'use vendored args.hxx header')
+       value: false,
+       description: 'use system args.hxx header')
 
 option('man-pages',
        type: 'feature',

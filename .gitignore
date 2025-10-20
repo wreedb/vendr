@@ -16,5 +16,7 @@ sdeps/
 stage/
 
 # meson subprojects caching
+subprojects/cpr/
+subprojects/libgit2-1.9.1/
 subprojects/packagecache/
 subprojects/.wraplock
