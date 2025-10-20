@@ -1,0 +1,39 @@
+# Maintainer: Will Reed <wreed@disroot.org>
+
+_pkgname=vendr
+pkgname=vendr
+pkgver=0.2.0
+pkgrel=1
+pkgdesc="Easy way to vendor your projects' dependencies"
+arch=('x86_64')
+url=https://github.com/wreedb/vendr
+license=('GPL-3.0-or-later')
+source=("https://github.com/wreedb/vendr/releases/download/${pkgver}/${pkgname}-${pkgver}.source.tar.gz")
+b2sums=('59fd08ab3713e1f1cd14cd583931d4bbf03c29404bea0ec7c86c4cffe9e30a34c36ef66ee95b0bad09153a8b228951bcb0c81afc79d9c6b187e109d15bc07a06')
+provides=('vendr')
+depends=(libgit2 curl tomlplusplus)
+makedepends=(meson gcc scdoc)
+
+_srcdir="${pkgname}-${pkgver}.source"
+
+prepare() {
+    cd ${_srcdir}
+    meson setup .build \
+        --prefix=/usr \
+        --buildtype=release \
+        -D tomlpp-header-only=false \
+        -D cpp_args="${CXXFLAGS}" \
+        -D cpp_link_args="${LDFLAGS}"
+}
+
+build() {
+    cd ${_srcdir}
+    meson compile -C .build
+}
+
+package() {
+    cd ${_srcdir}
+    meson install -C .build --destdir ${pkgdir}
+    install -dm 0755 ${pkgdir}/usr/share/licenses/${pkgname}
+    cp -a licenses/* -t ${pkgdir}/usr/share/licenses/${pkgname}
+}
