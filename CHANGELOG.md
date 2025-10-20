@@ -43,3 +43,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - meson.options: added 'static-libcurl' for -l:libcurl.a
 - meson.options: add options for manpages, pkg-config file and shell completions
 - INSTALL.md: update install procedure and dependency requirements
+
+## [0.2.1] - 2025-10-20
+
+### Added
+- chore: add vendr.toml to project root
+- chore(misc/packaging): add Arch Linux PKGBUILD
+- chore(misc): add ignore-file-list for cloc tool
+
+### Changed
+- build: create meson wrap for libcpr, update gitignore for subprojects/cpr
+- build: change ifdef to check SYSTEM_ARGSHXX instead of VENDORED_ARGSHXX
+- docs(INSTALL): remove libcpr as an explicit dependency, meson wrap handles it
+- fix(src/vendr): vendr::get will create leading directories in file.path, avoiding filesystem_error throws
+- chore(version): bump to 0.2.1
