@@ -1,39 +1,49 @@
-option('boost-po-static',
+option('static-libcurl',
        type: 'boolean',
        value: false,
-       description: 'link to boost_program_options statically')
+       description: 'link libcurl static')
 
-option('tomlpp-static',
+option('static-libcpr',
+       type: 'boolean',
+       description: 'link libcpr static')
+
+option('static-tomlpp',
        type: 'boolean',
        value: false,
-       description: 'link to tomlplusplus statically')
+       description: 'link libtomlplusplus static')
+
+option('static-libgit2',
+       type: 'boolean',
+       value: false,
+       description: 'link libgit2 static')
 
 option('tomlpp-header-only',
        type: 'boolean',
-       value: false,
+       value: true,
        description: 'build with tomlplusplus in header-only mode')
 
-option('libgit2-static',
+option('static-cpp',
        type: 'boolean',
        value: false,
-       description: 'link to libgit2 statically')
+       description: 'link c++ stdlib static')
 
-option('zlib-static',
+option('vendored-argshxx',
        type: 'boolean',
-       value: false,
-       description: 'link zlib statically')
+       value: true,
+       description: 'use vendored args.hxx header')
 
-option('mbedtls-static',
-       type: 'boolean',
-       value: false,
-       description: 'link mbedtls statically')
+option('man-pages',
+       type: 'feature',
+       value: 'auto',
+       description: 'generate manual pages; requires scdoc')
 
-option('mbedcrypto-static',
-       type: 'boolean',
-       value: false,
-       description: 'link mbedcrypto statically')
+option('shell-completions',
+       type: 'array',
+       choices: ['bash', 'fish', 'zsh'],
+       value: ['bash', 'fish', 'zsh'],
+       description: 'install shell completions for the given shell(s)')
 
-option('mbedx509-static',
+option('gen-pkgconfig',
        type: 'boolean',
-       value: false,
-       description: 'link mbedx509 statically')
+       value: true,
+       description: 'generate/install a pkg-config file for vendr')

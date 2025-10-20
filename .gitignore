@@ -1,9 +1,20 @@
-bld/
-.bld/
-build/
-.build/
-deps/*
+# binary files and archives
 *.o
 *.a
+*.so
+*.out
+*.tar.*
+*.zip
+
+# build/staging/deps directories
+.bld/
+.build/
+bld/
+build/
+deps/*
+sdeps/
+stage/
+
+# meson subprojects caching
 subprojects/packagecache/
 subprojects/.wraplock

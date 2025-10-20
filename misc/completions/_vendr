@@ -1,0 +1,64 @@
+#compdef vendr
+
+_vendr() {
+    local curcontext="$curcontext" state line
+    typeset -A opt_args
+    local _toml_path="vendr.toml"
+
+    # Check if --file/-f was specified earlier in the command line
+    local i
+    for (( i = 2; i < CURRENT; i++ )); do
+        if [[ "${words[i]}" == "--file" || "${words[i]}" == "-f" ]]; then
+            if (( i + 1 <= ${#words[@]} )) && [[ -n "${words[i+1]}" ]]; then
+                _toml_path="${words[i+1]}"
+                break
+            fi
+        fi
+    done
+
+    _arguments -C \
+        '(- *)'{-h,--help}'[Show help information]' \
+        '(- *)'{-V,--version}'[Show version information]' \
+        '(- *)'{-v,--verbose}'[Display more detailed output of actions]' \
+        {-w,--overwrite}'[Overwrite existing files]' \
+        {-f,--file}'[Specify TOML file]:toml file:_vendr_toml_files' \
+        {-n,--name}'[Specify name]:name:_vendr_names'
+}
+
+_vendr_toml_files() {
+    local toml_files
+    toml_files=(*.toml(N))
+    
+    if (( ${#toml_files[@]} > 0 )); then
+        _values 'toml files' ${toml_files[@]}
+    fi
+}
+
+_vendr_names() {
+    local names _toml_path="vendr.toml"
+    
+    # Check if --file/-f was specified earlier
+    local i
+    for (( i = 2; i < CURRENT; i++ )); do
+        if [[ "${words[i]}" == "--file" || "${words[i]}" == "-f" ]]; then
+            if (( i + 1 <= ${#words[@]} )) && [[ -n "${words[i+1]}" ]]; then
+                _toml_path="${words[i+1]}"
+                break
+            fi
+        fi
+    done
+    
+    if [[ -f "$_toml_path" ]]; then
+        names=(${(f)"$(grep '^name =' "$_toml_path" 2>/dev/null | cut -d'"' -f2)"})
+        
+        if (( ${#names[@]} > 0 )); then
+            _values 'names' ${names[@]}
+        else
+            _message "no names found in $_toml_path"
+        fi
+    else
+        _message "file not found: $_toml_path"
+    fi
+}
+
+_vendr "$@"

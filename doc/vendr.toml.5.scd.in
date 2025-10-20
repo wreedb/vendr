@@ -1,0 +1,111 @@
+vendr.toml(5) "Vendr @VERSION@"
+; vim:ft=scdoc
+# NAME
+
+vendr.toml - configuration file(s) for *vendr*
+
+# SYNOPSIS
+
+_vendr.toml_ [_\*.toml_]
+
+
+# DESCRIPTION
+
+_vendr.toml_ is read by *vendr* when invoked, however any valid _toml_ file may
+be specified using the *-f* and *--file* options.
+
+The format consists of two toml array sections: _repos_ and _files_.
+_repos_ will be fetched with git according to the options specified in the given
+entry. _files_ will be downloaded over the internet according to the options
+specified.
+
+# CONFIGURATION OPTIONS
+For fields that are not required, their default value is shown in \[ \].
+
+[[ *field*
+:[ *type*
+:[ *use in*
+:[ *required?*
+|  _name_
+:  string
+:  both
+:  *true*
+|  _url_
+:  string
+:  both
+:  *true*
+|  _path_
+:  string
+:  both
+:  *false* [_name_]
+|  _tag_
+:  string
+:  repos
+:  *true*
+|  _depth_
+:  integer
+:  repos
+:  *false* [_1_]
+
+# EXAMPLE
+
+The following example uses both _files_ and _repos_ that *vendr* itself uses:
+
+```
+[[repos]]
+name = "tomlplusplus"
+url = "https://github.com/marzer/tomlplusplus.git"
+path = "deps/tomlplusplus"
+tag = "v3.4.0"
+
+[[files]]
+name = "args"
+url = "https://github.com/taywee/args/archive/refs/tags/6.4.7.tar.gz"
+path = "deps/args-6.4.7.tar.gz"
+
+[[files]]
+name = "cpr"
+url = "https://github.com/libcpr/cpr/archive/refs/tags/1.12.0.tar.gz"
+path = "deps/cpr-1.12.0.tar.gz"
+
+[[repos]]
+name = "libgit2"
+url = "https://github.com/libgit2/libgit2.git"
+path = "deps/libgit2"
+tag = "v1.9.1"
+depth = 0
+```
+
+## NOTE
+
+Although as you might've noticed, in the "libgit2" entry, *depth* is set to a
+value of _0_, this is for demonstrating that _0_ is considered infinite depth,
+or a full clone of the repository history.
+
+# BUGS
+
+Please report any issues to the project's issue page at
+_https://github.com/wreedb/vendr/issues_, or contact the author via email using
+the address listed in the *AUTHORS* section.
+
+# AUTHORS
+
+*vendr* is written and maintained by *Will Reed* _<wreed@disroot.org>_. The
+source code of *vendr* is available at _https://github.com/wreedb/vendr_.
+
+# COPYRIGHT
+
+Copyright © @YEAR@ Will Reed. License GPLv3+:++
+GNU General Public License version 3 or later++
+See _https://gnu.org/licenses/gpl-3.0.html_ or the _LICENSE_ file included in
+the source repository for more information.++
+This is free software: you are free to change and redistribute it.++
+There is NO WARRANTY, to the extent permitted by law.
+
+# VERSION
+
+*vendr* version @VERSION@, released in @MONTH@ @YEAR@
+
+# SEE ALSO
+
+	_vendr_(1)

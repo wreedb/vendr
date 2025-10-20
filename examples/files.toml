@@ -1,0 +1,22 @@
+[[files]]
+name = "coreutils"
+url = "https://mirrors.osuosl.org/pub/gnu/coreutils/coreutils-9.8.tar.gz"
+path = "deps/coreutils-9.8.tar.gz"
+
+[[files]]
+name = "libunistring"
+url = "https://mirrors.osuosl.org/pub/gnu/libunistring/libunistring-1.4.1.tar.gz"
+path = "deps/libunistring-1.4.1.tar.gz"
+
+[[repos]]
+name = "tomlplusplus"
+url = "https://github.com/marzer/tomlplusplus.git"
+path = "deps/tomlplusplus"
+tag = "v3.4.0"
+
+[[repos]]
+name = "libgit2"
+url = "https://github.com/libgit2/libgit2.git"
+path = "deps/libgit2"
+tag = "v1.9.1"
+depth = 0

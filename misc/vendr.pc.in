@@ -1,0 +1,7 @@
+prefix=@PREFIX@
+exec_prefix=${prefix}
+vendr=${exec_prefix}/bin/vendr
+
+Name: vendr
+Description: Easily vendor your projects' dependencies
+Version: @VERSION@

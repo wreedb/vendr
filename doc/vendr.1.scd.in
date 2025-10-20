@@ -1,0 +1,86 @@
+vendr(1) "Vendr @VERSION@"
+; vim:ft=scdoc
+# NAME
+
+*vendr* - easily vendor your projects' dependencies
+
+# SYNOPSIS
+
+*vendr* [_options_]
+
+# DESCRIPTION
+
+*vendr* is a tool for vendoring your software projects' dependencies. Its
+creation was inspired by the lackluster capabilities of Git submodules.
+
+With *vendr*, you can declare your dependencies in a simple _toml_ format;
+whether they are source archives to download over the internet or Git
+repositories to fetch at a specific tag.
+
+# OPTIONS
+
+*-f, --file* _path_
+	Specify an alternate path for the file to read from. By default *vendr* uses
+	a file in your current working directory name _vendr.toml_.
+
+*-n, --name* _name_
+	Specify an entry from the file by providing the value of its name field. By
+	default *vendr* will fetch/download all entries.
+
+*-w, --overwrite*
+	This will cause existing files/directories to be overwritten upon running.
+	By default *vendr* will skip over entries that already exist in the
+	filesystem.
+
+*-v, --verbose*
+	This will cause *vendr* to be more verbose when documenting its actions at
+	runtime.
+
+*-h, --help*
+	Display usage information.
+
+*-V, --version*
+	Display version information.
+
+# FILES
+
+*vendr.toml*
+	The default behaviour is to use a file name _vendr.toml_ in your current
+	working directory. This however of course can be changed at runtime with the
+	*-f, --file* _path_ flags. The syntax of these files are documented in
+	_vendr.toml_(5).
+
+# ENVIRONMENT
+
+*NO_COLOR*
+	When present (regardless of value), *vendr* will omit usage of any colored
+	terminal output. See _https://no-color.org_ for details about this community
+	standard.
+
+# BUGS
+
+Please report any issues to the project's issue page at
+_https://github.com/wreedb/vendr/issues_, or contact the author via email using
+the address listed in the *AUTHORS* section.
+
+# AUTHORS
+
+*vendr* is written and maintained by *Will Reed* _<wreed@disroot.org>_. The
+source code of *vendr* is available at _https://github.com/wreedb/vendr_.
+
+# COPYRIGHT
+
+Copyright © @YEAR@ Will Reed. License GPLv3+:++
+GNU General Public License version 3 or later++
+See _https://gnu.org/licenses/gpl-3.0.html_ or the _LICENSE_ file included in
+the source repository for more information.++
+This is free software: you are free to change and redistribute it.++
+There is NO WARRANTY, to the extent permitted by law.
+
+# VERSION
+
+*vendr* version @VERSION@, released in @MONTH@ @YEAR@
+
+# SEE ALSO
+
+	_vendr.toml_(5), _git-fetch_(1), _curl_(1), _git-submodule_(5)

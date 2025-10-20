@@ -1,8 +1,7 @@
+#include "config.hpp"
 #include <format>
 #include <iostream>
 #include <optional>
-
-#include "config.hpp"
 
 #if TOML_HEADER_ONLY
     #include "toml.hpp"
@@ -10,91 +9,102 @@
     #include <toml++/toml.hpp>
 #endif
 
-#include <boost/program_options.hpp>
-
-#include "vendr.hpp"
-
-namespace bp = boost::program_options;
+#if VENDORED_ARGSHXX
+    #include "args.hxx"
+#else
+    #include <args.hxx>
+#endif
 
 static const std::string projectVersion = std::string(PROJECT_VERSION);
+std::string argZero = "vendr";
 
-int main(int argc, char *argv[]) {
-    
-    if (argc > 0) {
-        argZero = argv[0];
+// project-local headers
+#include "help.hpp"
+#include "macros.hpp"
+#include "vendr.hpp"
 
-        if (argZero.size() >= 2 && argZero.substr(0, 2) == "./")
-            argZero = argZero.substr(2);
 
-        argZero = argZero.substr(argZero.find_last_of("/") + 1);
-    }
+int main(const int argc, const char *argv[]) {
+    // remove './' and reduce to basename of executable
+    argZero = stripArgZero(std::string(argv[0]));
 
+    // default behaviour
     std::string tomlPath = "vendr.toml";
-    bool allRepos = true;
-    std::string namedRepo;
+    bool allTargets = true;
+    bool overwriteFiles = false;
+    std::string namedEntry;
     
+    args::ArgumentParser argParser(argZero);
+
+    args::ValueFlag<std::string> argFilename(argParser, "", "", {'f', "file"});
+    args::ValueFlag<std::string> argName(argParser, "", "", {'n', "name"});
+    args::Flag argOverwrite(argParser, "", "", {'w', "overwrite"});
+    args::Flag argVerbose(argParser, "", "", {'v', "verbose"});
+    args::Flag argVersion(argParser, "", "", {'V', "version"});
+    args::Flag argHelp(argParser, "", "", {'h', "help"});
+
     try {
-        bp::options_description optDesc("options");
-        optDesc.add_options()
-            ("help,h",                                  "display this usage info")
-            ("file,f",       bp::value<std::string>(),  "specify vendr.toml path")
-            ("name,n",       bp::value<std::string>(),  "fetch only repository <name>")
-            ("version,v",                               "show version information");
-
-        bp::variables_map optMap;
-        bp::store(bp::parse_command_line(argc, argv, optDesc), optMap);
-       
-        if (optMap.count("version")) {
-            logInfo("version {}", projectVersion);
-            return 0;
-        }
-
-        if (optMap.count("help")) {
-            std::cout << "\033[33m" << argZero << "\033[0m ";
-            std::cout << optDesc;
-            return 0;
-        }
-
-        if (optMap.count("file"))
-            tomlPath = optMap["file"].as<std::string>();
-
-        if (optMap.count("name")) {
-            allRepos = false;
-            namedRepo = optMap["name"].as<std::string>();
-        }
-
-    } catch (const bp::error& err) {
-        std::cerr << err.what() << std::endl;
+        argParser.ParseCLI(argc, argv);
+    } catch (const args::ParseError& e) {
+        std::cerr << e.what() << std::endl;
         return 1;
     }
 
-    std::vector<vendr::repo> repoVec = vendr::serializeToml(tomlPath);
-    int repoVecSize = repoVec.size();
-    if (allRepos) {
-        for (int n = 0; n < repoVecSize; n = n + 1) {
-            vendr::repo r = repoVec.at(n);
-            if (fs::is_directory(fs::path(r.path))) {
-                logWarn("repo ({}) at path {} already exists, skipping.", r.name, r.path);
-                continue;
-            } else {
-                vendr::fetch(r);
-            }
-        }
+    if (argVersion) {
+        vendr::usage::version();
         return 0;
-    } else if (namedRepo.size() > 0) {
-
-        auto repo = vendr::findRepoByName(repoVec, namedRepo);
-        
-        if (repo) {
-            vendr::fetch(repo.value());
-            return 0;
-        
-        } else {
-            logErr("repository '{}' was not found in {}.", namedRepo, tomlPath);
-            return 1;
-
-        }
-    
     }
 
+    if (argHelp) {
+        vendr::usage::help();
+        return 0;
+    }
+
+    if (argVerbose)
+        vendr::log::verbose = args::get(argVerbose);
+
+    if (argFilename)
+        tomlPath = args::get(argFilename);
+
+    if (argName) {
+        allTargets = false;
+        namedEntry = args::get(argName);
+    }
+
+    if (argOverwrite)
+        overwriteFiles = true;
+    
+    // END: argument parsing
+
+    // BEGIN: main operation
+    vendr::targets vendrTargets = vendr::serializeToml(tomlPath);
+    
+    if (allTargets) {
+        int filesCount = vendrTargets.files.size();
+        int reposCount = vendrTargets.repos.size();
+        
+        if (filesCount > 0)
+            for (int n = 0; n < filesCount; n++)
+                vendr::get(vendrTargets.files.at(n), overwriteFiles);
+
+        if (reposCount > 0)
+            for (int n = 0; n < reposCount; n++)
+                vendr::fetch(vendrTargets.repos.at(n), overwriteFiles);
+
+        return 0;
+
+    // --name <name> passed
+    } else if (!namedEntry.empty()) {
+        std::optional<vendr::repo> uRepo = vendr::findRepoByName(vendrTargets.repos, namedEntry);
+        std::optional<vendr::file> uFile = vendr::findFileByName(vendrTargets.files, namedEntry);
+        if (uFile) {
+            vendr::get(uFile.value(), overwriteFiles);
+            return 0;
+        } else if (uRepo) {
+            vendr::fetch(uRepo.value(), overwriteFiles);
+        } else {
+            vendr::log::err("no entry found by name '{}'", namedEntry);
+            return 1;
+        }
+    }
 }

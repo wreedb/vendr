@@ -12,3 +12,49 @@ one level of 'depth'. Due to the fact that we do not live in a perfect world
 where projects offer archives of their work at each release (not automatically 
 generated archives made by git(hub/lab) or other forges), I made this small 
 program to supplement that.
+
+---
+Usage
+=====
+To use vendr, simply create a file in your repo called `vendr.toml`, with contents like such:
+```toml
+[[repos]]
+name = "tomlplusplus"
+url = "https://github.com/marzer/tomlplusplus.git"
+path = "deps/tomlplusplus"
+tag = "v3.4.0"
+
+[[repos]]
+name = "vendr"
+url = "https://github.com/wreedb/vendr.git"
+path = "deps/vendr"
+tag = "0.1.0"
+
+[[files]]
+name = "cpr"
+url = "https://github.com/libcpr/cpr/archive/refs/tags/1.12.0.tar.gz"
+path = "deps/cpr-1.12.0.tar.gz"
+```
+Then by invoking `vendr`, by default it will clone all listed repositories 
+to the specified paths, at the specified tag. You can specify a single 
+`name` from the file with `-n/--name` to fetch if you know which you you 
+need at any given time. By default the depth of the clone is set to `1`; 
+if you want to do a full clone of the repo's entire git history, set the 
+depth to `0` like so:
+```toml
+[[repos]]
+name = "foo"
+# ...
+depth = 0
+```
+
+---
+Installation
+------------
+See [INSTALL.md](./INSTALL.md)
+
+---
+License
+-------
+Vendr is licensed under the GNU GPL version 3 (or later); see the [license file](./LICENSE) 
+for more information.

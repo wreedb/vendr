@@ -5,10 +5,16 @@ Vendr is licensed under the GNU GPL version 3 or later.
 These licenses are included in the event that Vendr is built with the given software dependencies directly:
 
 ---
-Boost (program_options): [license](./third-party/BSL-1.0.txt)
+MbedTLS: [license](./third-party/LICENSE.mbedTLS)  
 
 ---
-MbedTLS: [license](./third-party/APACHE-2.0.txt)  
+LibGit2: [license](./third-party/LICENSE.libgit2)
 
 ---
-LibGit2: [license](./third-party/COPYING.libgit2)  
+Args: [license](./third-party/LICENSE.args)
+
+---
+LibCurl: [license](./third-party/LICENSE.curl)
+
+---
+TomlPlusPlus: [license](./third-party/LICENSE.tomlplusplus)

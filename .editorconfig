@@ -1,0 +1,21 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+[*.rst]
+indent_style = space
+indent_size = 2
+
+[meson.version]
+insert_final_newline = false
+
+[meson.{build,options},*.py]
+indent_style = space
+indent_size = 2
+
+[*.{cc,cpp,cxx,hh,hpp,hxx}]
+indent_style = space
+indent_size = 4
