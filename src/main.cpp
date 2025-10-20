@@ -9,10 +9,10 @@
     #include <toml++/toml.hpp>
 #endif
 
-#if VENDORED_ARGSHXX
-    #include "args.hxx"
-#else
+#if SYSTEM_ARGSHXX
     #include <args.hxx>
+#else
+    #include "args.hxx"
 #endif
 
 static const std::string projectVersion = std::string(PROJECT_VERSION);
