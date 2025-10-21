@@ -99,12 +99,14 @@ deps = []
 # check system for libcpr; its uncommon 
 # to have so we fallback to cmake subproject, using
 # the system curl to link it.
-system_cpr = cxx.find_library('cpr', required: false)
+system_cpr = cxx.find_library(
+  'cpr',
+  required: false,
+  dirs: ['/usr/lib', '/usr/local/lib'],
+  static: get_option('static-libcpr'))
+
 if system_cpr.found()
-  cpr_dep = cxx.find_library(
-    'cpr',
-    required: true,
-    static: get_option('static-libcpr'))
+  cpr_dep = system_cpr
 else
   cpr_cm_opts = cmake.subproject_options()
   cpr_cm_opts.set_install(false)
