@@ -54,6 +54,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - build: create meson wrap for libcpr, update gitignore for subprojects/cpr
 - build: change ifdef to check SYSTEM_ARGSHXX instead of VENDORED_ARGSHXX
-- docs(INSTALL): remove libcpr as an explicit dependency, meson wrap handles it
+- docs(install): remove libcpr as an explicit dependency, meson wrap handles it
 - fix(src/vendr): vendr::get will create leading directories in file.path, avoiding filesystem_error throws
 - chore(version): bump to 0.2.1
+
+## [Unreleased] - 2025-10-21
+
+### Changed
+- build(meson): adjust libcpr system detection
+- build(meson): update license_files project argument
+
+### Removed
+- docs(license): moved LICENSE from licenses/LICENSE.md to project root

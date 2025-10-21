@@ -20,3 +20,6 @@ subprojects/cpr/
 subprojects/libgit2-1.9.1/
 subprojects/packagecache/
 subprojects/.wraplock
+
+vendr
+vendr.static

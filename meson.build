@@ -2,7 +2,7 @@ project(
   'vendr', 'cpp',
   meson_version: '>= 1.6.1',
   license: 'GPL-3.0-or-later',
-  license_files: 'LICENSE',
+  license_files: 'LICENSE.md',
   version: files('version'),
   default_options: [
     'cpp_std=c++23'
