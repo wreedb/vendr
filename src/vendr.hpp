@@ -66,7 +66,7 @@ namespace vendr {
 
     int fetchProgress(const git_indexer_progress *stats, void *payload) {
         using vendr::log::useColor;
-        
+
         int percentage = (stats->total_objects > 0) ? (stats->received_objects * 100) / stats->total_objects : 0;
         std::cout
         << std::format
@@ -103,17 +103,33 @@ namespace vendr {
                          cpr::cpr_off_t uploadNow,
                          intptr_t userdata) {
         using vendr::log::useColor;
-        int percentage = (downloadTotal > 0) ? (downloadNow * 100) / downloadTotal : 0;
-        std::cout
-        << std::format
-        ("\r{}{}{}: download [{}{:3}%{}]",
-         (useColor ? "\033[32m" : ""),
-         argZero,
-         (useColor ? "\033[0m" : ""),
-         (useColor ? "\033[32m" : ""),
-         percentage,
-         (useColor ? "\033[0m" : ""))
-        << std::flush;
+
+        if (downloadTotal > 0) {
+            // size is known
+            int percentage = (downloadNow * 100) / downloadTotal;
+            std::cout << std::format(
+                "\r{}{}{}: download [{}{:3}%{}]",
+                (useColor ? "\033[32m" : ""),
+                argZero,
+                (useColor ? "\033[0m" : ""),
+                (useColor ? "\033[32m" : ""),
+                percentage,
+                (useColor ? "\033[0m" : "")
+            ) << std::flush;
+        } else {
+            // size isn't know, show received
+            double mb = downloadNow / 1'000'000.0;
+            std::cout << std::format(
+                "\r{}{}{}: download [{}{:.1f}{}] MB",
+                (useColor ? "\033[32m" : ""),
+                argZero,
+                (useColor ? "\033[0m" : ""),
+                (useColor ? "\033[32m" : ""),
+                mb,
+                (useColor ? "\033[0m" : "")
+            ) << std::flush;
+        }
+
         return true;
     }
 
@@ -140,13 +156,13 @@ namespace vendr {
 		     .path = path,
 		     .filename = filename};
 	    }
-	
+
 	    std::regex baseOnlyRegex(R"(^(https?://[^/]+)$)");
 
 	    if (std::regex_match(url, match, baseOnlyRegex)) {
     	    return {match[1].str(), "/", "download"};
 	    }
-	
+
 	    vendr::log::fatal(1, "invalid url provided: {}", url);
     }
 
@@ -169,7 +185,7 @@ namespace vendr {
 	    if (!file.path.empty()) {
 		    // use path from toml entry if present
 		    outputFile = file.path;
-	
+
 	    } else if (head.header.count("Content-Disposition")) {
 		    // if header for content-disposition exists, parse and use it as filename
             std::string disp = head.header["Content-Disposition"];
@@ -186,7 +202,9 @@ namespace vendr {
 
         try {
             fs::path p(outputFile);
-            fs::create_directories(p.parent_path());
+            fs::path parent = p.parent_path();
+            if (parent != fs::path(""))
+                fs::create_directories(parent);
 
         } catch (const fs::filesystem_error& e) {
             vendr::log::err("failed to create parent directories for {}!", outputFile);
@@ -278,21 +296,21 @@ namespace vendr {
         GITCHECK
             (git_remote_create
             (&gitRemote, gitRepo, "origin", repo.url.c_str()));
-    
+
         std::string refSpec = std::format
             ("+refs/tags/{}:refs/tags/{}", repo.tag, repo.tag);
-    
+
         std::string revSpec = std::format
             ("refs/tags/{}", repo.tag);
 
         const char *refSpecCStr = refSpec.c_str();
-    
+
         git_strarray refSpecsArr{const_cast<char**>(&refSpecCStr), 1};
         git_fetch_options fetchOpts = GIT_FETCH_OPTIONS_INIT;
 
         // libgit2 considers a depth of 0 to be infinite depth; e.g. a full clone
         fetchOpts.depth = repo.depth;
-    
+
         fetchOpts.proxy_opts.type = GIT_PROXY_AUTO;
         fetchOpts.follow_redirects = GIT_REMOTE_REDIRECT_INITIAL;
         fetchOpts.custom_headers = git_strarray{nullptr, 0};
@@ -317,10 +335,10 @@ namespace vendr {
 
         git_checkout_options checkoutOpts = GIT_CHECKOUT_OPTIONS_INIT;
         checkoutOpts.checkout_strategy = GIT_CHECKOUT_SAFE;
-    
+
         // progress callback, shows objects fetched of objects total
         checkoutOpts.progress_cb = checkoutProgress;
-    
+
         GITCHECK
             (git_reset
             (gitRepo, gitRev, GIT_RESET_HARD, &checkoutOpts));
@@ -329,7 +347,7 @@ namespace vendr {
         std::cout << std::endl;
 
 	    vendr::log::info("{}@{} -> {}", repo.name, repo.tag, repo.path);
-    
+
         git_remote_free(gitRemote);
         git_repository_free(gitRepo);
 	    return 0;
@@ -338,7 +356,7 @@ namespace vendr {
     std::optional<vendr::repo> findRepoByName
         (const std::vector<vendr::repo>& repositories,
          const std::string& name) {
-    
+
         const int length = repositories.size();
         for (int n = 0; n < length; n++)
             if (repositories.at(n).name == name)
@@ -350,7 +368,7 @@ namespace vendr {
     std::optional<vendr::file> findFileByName
         (const std::vector<vendr::file>& files,
          const std::string& name) {
-    
+
         const int length = files.size();
         for (int n = 0; n < length; n++)
             if (files.at(n).name == name)
@@ -362,7 +380,7 @@ namespace vendr {
     vendr::targets serializeToml(const std::string& filePath) {
         if (!fs::exists(fs::path(filePath)))
             vendr::log::fatal(1, "path {} doesn't exist!", filePath);
-        
+
         try {
             auto rawToml = toml::parse_file(filePath);
        	    std::vector<vendr::repo> repositories;
@@ -371,15 +389,15 @@ namespace vendr {
 		    if (rawToml["repos"].is_array()) {
 			    toml::array& repoArray = *rawToml["repos"].as_array();
         	    const int repoArrayLength = repoArray.size();
-        
+
         	    repositories.resize(repoArrayLength);
-        
+
         	    int n = 0;
         	    for (auto& node : repoArray) {
             	    if (toml::table* thisTable = node.as_table()) {
 
                 	    toml::table& current = *thisTable;
-                
+
                 	    std::optional<std::string> name = current["name"].value<std::string>();
                 	    if (!name)
                     	    vendr::log::fatal(1, "index #{} in {} doesn't contain the required 'name' field!", n, filePath);
@@ -391,13 +409,13 @@ namespace vendr {
                 	    std::optional<std::string> path = current["path"].value<std::string>();
                 	    if (!path)
                     	    vendr::log::fatal(1, "table {} doesn't contain the required 'path' field!", n, filePath);
-               
+
                 	    std::optional<std::string> tag = current["tag"].value<std::string>();
                 	    if (!tag)
                     	    vendr::log::fatal(1, "table {} doesn't contain the required 'tag' field!", n, filePath);
 
                 	    int depth = current["depth"].value_or(1);
-                
+
                 	    repositories[n] = vendr::createRepo(*name, *url, *path, *tag, depth);
                 	    n = n + 1;
             	    }
@@ -407,15 +425,15 @@ namespace vendr {
 		    if (rawToml["files"].is_array()) {
 			    toml::array& fileArray = *rawToml["files"].as_array();
         	    const int fileArrayLength = fileArray.size();
-        
+
         	    files.resize(fileArrayLength);
-        
+
         	    int n = 0;
         	    for (auto& node : fileArray) {
             	    if (toml::table* thisTable = node.as_table()) {
 
                 	    toml::table& current = *thisTable;
-                        
+
                         // name required, fail otherwise
                 	    std::optional<std::string> name = current["name"].value<std::string>();
                 	    if (!name)
@@ -427,7 +445,7 @@ namespace vendr {
                     	    vendr::log::fatal(1, "table {} doesn't contain the required 'url' field!", n, filePath);
 
                 	    std::string path = current["path"].value_or("");
-                
+
                 	    files[n] = vendr::createFile(*name, *url, path);
                 	    n = n + 1;
             	    }
@@ -435,7 +453,7 @@ namespace vendr {
 		    }
 
 		    return vendr::targets{.repos = repositories, .files = files};
-    
+
 	    } catch (const toml::parse_error& tomlerr) {
 		    vendr::log::err("error encountered while parsing file {}", filePath);
             std::cerr << tomlerr << std::endl;
