@@ -1,16 +1,31 @@
 {
   description = "Easily vendor your projects' dependencies";
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-  };
+
+  inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+  inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-      in
-      {
+        lib = nixpkgs.legacyPackages.${system}.lib;
+
+        nativeBuildInputs = with pkgs; [
+          pkg-config
+          ninja
+          meson
+          cmake
+          scdoc
+        ];
+
+        buildInputs = with pkgs; [
+          tomlplusplus
+          libgit2
+          curl
+          cpr
+        ];
+
+      in {
         packages.default = pkgs.stdenv.mkDerivation {
           pname = "vendr";
           version = "0.2.1";
@@ -26,23 +41,10 @@
               fetching Git repositories.
             '';
             homepage = "https://github.com/wreedb/vendr";
-            license = pkgs.lib.licenses.gpl3Plus;
+            license = lib.licenses.gpl3Plus;
           };
 
-          nativeBuildInputs = with pkgs; [
-            pkg-config
-            meson
-            ninja
-            cmake
-            scdoc
-          ];
-
-          buildInputs = with pkgs; [
-            tomlplusplus
-            libgit2
-            cpr
-            curl
-          ];
+          inherit nativeBuildInputs buildInputs;
 
           mesonBuildType = "release";
           mesonFlags = [
@@ -50,25 +52,15 @@
             "-D tomlpp-header-only=false"
             # normally built static from cpr.wrap, doesn't apply here.
             "-D static-libcpr=false"
+            # no need for extra symbols here
+            "-D strip=true"
           ];
 
         };
 
         devShells.default = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [
-            pkg-config
-            meson
-            ninja
-            cmake
-            scdoc
-          ];
-
-          buildInputs = with pkgs; [
-            tomlplusplus
-            libgit2
-            cpr
-            curl
-          ];
+          inherit nativeBuildInputs buildInputs;
         };
-      });
+      }
+    );
 }
