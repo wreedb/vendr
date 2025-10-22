@@ -97,42 +97,6 @@ namespace vendr {
 	    << std::flush;
     }
 
-    bool httpGetProgress(cpr::cpr_off_t downloadTotal,
-                 	     cpr::cpr_off_t downloadNow,
-                         cpr::cpr_off_t uploadTotal,
-                         cpr::cpr_off_t uploadNow,
-                         intptr_t userdata) {
-        using vendr::log::useColor;
-
-        if (downloadTotal > 0) {
-            // size is known
-            int percentage = (downloadNow * 100) / downloadTotal;
-            std::cout << std::format(
-                "\r{}{}{}: download [{}{:3}%{}]",
-                (useColor ? "\033[32m" : ""),
-                argZero,
-                (useColor ? "\033[0m" : ""),
-                (useColor ? "\033[32m" : ""),
-                percentage,
-                (useColor ? "\033[0m" : "")
-            ) << std::flush;
-        } else {
-            // size isn't know, show received
-            double mb = downloadNow / 1'000'000.0;
-            std::cout << std::format(
-                "\r{}{}{}: download [{}{:.1f}{}] MB",
-                (useColor ? "\033[32m" : ""),
-                argZero,
-                (useColor ? "\033[0m" : ""),
-                (useColor ? "\033[32m" : ""),
-                mb,
-                (useColor ? "\033[0m" : "")
-            ) << std::flush;
-        }
-
-        return true;
-    }
-
     httpUrl httpParseUrl(const std::string& url) {
 	    std::regex urlRegex(R"(^(https?://[^/]+)(/.*)$)");
 	    std::smatch match;
@@ -167,9 +131,11 @@ namespace vendr {
     }
 
     int get(const vendr::file& file, const bool& overwrite) {
+        using vendr::log::useColor;
 	    std::string outputFile;
 	    vendr::httpUrl vUrl = httpParseUrl(file.url);
 	    const cpr::Url url = cpr::Url{vUrl.full};
+        bool hasContentLength = true;
 
 	    cpr::Session session;
 
@@ -199,6 +165,8 @@ namespace vendr {
             outputFile = vUrl.filename;
 	    }
 
+        if (!head.header.count("Content-Length"))
+            hasContentLength = false;
 
         try {
             fs::path p(outputFile);
@@ -239,7 +207,55 @@ namespace vendr {
 	    std::ofstream outfile(outputFile, std::ios::binary);
 
 	    // progress and write callbacks
-	    session.SetProgressCallback({{httpGetProgress}});
+        if (hasContentLength && std::string(head.header["Content-Length"]) != "0") {
+            // length is known, use percentage
+	        session.SetProgressCallback(
+                cpr::ProgressCallback{
+                    [](cpr::cpr_off_t downloadTotal,
+                       cpr::cpr_off_t downloadNow,
+                       cpr::cpr_off_t uploadTotal,
+                       cpr::cpr_off_t uploadNow,
+                       intptr_t userdata) {
+                        int percentage = (downloadNow > 0) ? (downloadNow * 100) / downloadTotal : 0;
+                        std::cout << std::format(
+                        "\r{}{}{}: download [{}{:3}%{}]",
+                        (useColor ? "\033[32m" : ""),
+                        argZero,
+                        (useColor ? "\033[0m" : ""),
+                        (useColor ? "\033[32m" : ""),
+                        percentage,
+                        (useColor ? "\033[0m" : "")
+                        ) << std::flush;
+                        return true;
+                    }
+            });
+        } else {
+            // length isn't known, show received in MB
+	        session.SetProgressCallback(
+                cpr::ProgressCallback{
+                    [](cpr::cpr_off_t downloadTotal,
+                       cpr::cpr_off_t downloadNow,
+                       cpr::cpr_off_t uploadTotal,
+                       cpr::cpr_off_t uploadNow,
+                       intptr_t userdata) {
+                        
+                        double mb = downloadNow / 1'000'000.0;
+                        std::cout << std::format(
+                        "\r{}{}{}: download [{}{:.1f}{}] MB",
+                        (useColor ? "\033[32m" : ""),
+                        argZero,
+                        (useColor ? "\033[0m" : ""),
+                        (useColor ? "\033[32m" : ""),
+                        mb,
+                        (useColor ? "\033[0m" : "")
+                        ) << std::flush;
+                        return true;
+                    }
+            });
+            
+        }
+        
+        // stream to disk as it downloads
 	    session.SetWriteCallback(
 		    cpr::WriteCallback{
 			    [&outfile, &outputFile](std::string_view data, intptr_t userdata) -> bool {
@@ -267,7 +283,7 @@ namespace vendr {
 
 
     int fetch(const vendr::repo& repo, const bool& overwrite) {
-
+    
 	    if (!overwrite) {
 		    if (fs::exists(fs::path(repo.path))) {
 			    vendr::log::warn("directory {} already exists, not overwriting", repo.path);
