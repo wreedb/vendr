@@ -63,6 +63,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - build(meson): adjust libcpr system detection
 - build(meson): update license_files project argument
+- chore(packaging): update Arch Linux PKGBUILD to reflect 0.2.1 release
 
 ### Removed
 - docs(license): moved LICENSE from licenses/LICENSE.md to project root
+
+## [Unreleased] - 2025-10-22
+
+### Changed
+- build(meson): replace libcpr find_library() with regular dependency() call
+- chore(meta): update editorconfig and gitignore for nix files
+- chore(editorconfig): specify no final newline on 'version' file
+- fix(http): display received MB when server doesn't specify Content-Length instead of 0%
+- fix(http): check for Content-Length header field before downloading
+
+### Added
+- build(flake): add nix flake definition
