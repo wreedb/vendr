@@ -15,22 +15,22 @@ cxx = meson.get_compiler('cpp')
 manpages_feat = get_option('man-pages')
 scdoc = find_program('scdoc', required: manpages_feat)
 
-if scdoc.found()
-  date_month = run_command('date', '+%B', check: true).stdout().strip()
-  date_year = run_command('date', '+%Y', check: true).stdout().strip()
+date_month = run_command('date', '+%B', check: true).stdout().strip()
+date_year = run_command('date', '+%Y', check: true).stdout().strip()
 
+if scdoc.found()
   conf_manpage = configuration_data()
   conf_manpage.set('MONTH', date_month)
   conf_manpage.set('YEAR', date_year)
   conf_manpage.set('VERSION', meson.project_version())
 
-  vendr_1_scd_in = configure_file(
+  vendr_1 = configure_file(
     input: 'doc/vendr.1.scd.in',
     output: 'vendr.1.scd',
     configuration: conf_manpage,
   )
 
-  vendr_toml_5_scd_in = configure_file(
+  vendr_toml_5 = configure_file(
     input: 'doc/vendr.toml.5.scd.in',
     output: 'vendr.toml.5.scd',
     configuration: conf_manpage,
@@ -38,32 +38,48 @@ if scdoc.found()
 
   custom_target(
     'vendr.1',
-    input: vendr_1_scd_in,
+    input: vendr_1,
     output: 'vendr.1',
     command: [scdoc],
     feed: true,
     capture: true,
     install: true,
-    install_dir: get_option('mandir') / 'man1')
+    install_dir: get_option('mandir') / 'man1',
+  )
 
   custom_target(
     'vendr.toml.5',
-    input: vendr_toml_5_scd_in,
+    input: vendr_toml_5,
     output: 'vendr.toml.5',
     command: [scdoc],
     feed: true,
     capture: true,
     install: true,
-    install_dir: get_option('mandir') / 'man5')
-
+    install_dir: get_option('mandir') / 'man5',
+  )
 endif
 
+# default is true, but easy to disable if undesired.
+if get_option('install-docs')
+  opt_docdir = ''
+
+  if get_option('docdir') == ''
+    opt_docdir = 'share' / 'doc' / meson.project_name() + '-' + meson.project_version()
+  else
+    opt_docdir = get_option('docdir')
+  endif
+
+  install_data(['LICENSE.md', 'CHANGELOG.md', 'README.md'], install_dir: opt_docdir)
+  install_subdir('licenses', install_dir: opt_docdir)
+  install_subdir('examples', install_dir: opt_docdir)
+endif
+  
 if get_option('gen-pkgconfig')
   conf_pc = configuration_data()
   conf_pc.set('VERSION', meson.project_version())
-  conf_pc.set('PREFIX', get_option('prefix'))
+  conf_pc.set('YEAR', date_year)
 
-  vendr_pc_in = configure_file(
+  n = configure_file(
     input: 'misc/vendr.pc.in',
     output: 'vendr.pc',
     configuration: conf_pc,
@@ -112,7 +128,10 @@ if system_cpr.found()
 else
   cpr_cm_opts = cmake.subproject_options()
   cpr_cm_opts.set_install(false)
-  cpr_cm_opts.add_cmake_defines({'CPR_USE_SYSTEM_CURL': true, 'BUILD_SHARED_LIBS': false})
+  cpr_cm_opts.add_cmake_defines({
+    'CPR_USE_SYSTEM_CURL': true,
+    'BUILD_SHARED_LIBS': false # never build shared when vendoring libcpr
+  })
   cpr_proj = cmake.subproject('cpr', options: cpr_cm_opts)
   cpr_dep = cpr_proj.dependency('cpr')
 endif

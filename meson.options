@@ -47,3 +47,13 @@ option('gen-pkgconfig',
        type: 'boolean',
        value: true,
        description: 'generate/install a pkg-config file for vendr')
+
+option('docdir',
+       type: 'string',
+       value: '',
+       description: 'path to install documentation relative to prefix, default [PREFIX/share/doc/vendr-<version>]')
+
+option('install-docs',
+       type: 'boolean',
+       value: true,
+       description: 'install examples and licenses to DOCDIR')
