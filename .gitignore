@@ -21,5 +21,9 @@ subprojects/libgit2-1.9.1/
 subprojects/packagecache/
 subprojects/.wraplock
 
+# binaries
 vendr
 vendr.static
+
+# nix results
+result
