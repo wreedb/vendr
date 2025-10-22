@@ -4,7 +4,24 @@
 *.so
 *.out
 *.tar.*
+
+# compress files
 *.zip
+*.gz
+*.xz
+*.bz2
+*.lz
+*.zst
+*.zstd
+*.Z
+
+# compressed archives
+*.tgz
+*.txz
+*.tbz2
+*.tlz
+*.tzst
+*.tz
 
 # build/staging/deps directories
 .bld/
@@ -17,7 +34,9 @@ stage/
 
 # meson subprojects caching
 subprojects/cpr/
-subprojects/libgit2-1.9.1/
+subprojects/libgit2/
+subprojects/tomlplusplus/
+subprojects/mbedtls/
 subprojects/packagecache/
 subprojects/.wraplock
 
