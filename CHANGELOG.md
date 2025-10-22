@@ -70,12 +70,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - 2025-10-22
 
+### Added
+- build(flake): add nix flake definition
+- build(just): add justfile for utility
+
 ### Changed
 - build(meson): replace libcpr find_library() with regular dependency() call
 - chore(meta): update editorconfig and gitignore for nix files
 - chore(editorconfig): specify no final newline on 'version' file
 - fix(http): display received MB when server doesn't specify Content-Length instead of 0%
 - fix(http): check for Content-Length header field before downloading
-
-### Added
-- build(flake): add nix flake definition
+- build(pkgconfig): make pkg-config file relocatable with '${pcfiledir}'
+- build(meson): add install-docs and docdir options, for where to install examples and licenses
+- build(flake): consolidate duplicate input lists, strip installed executable
+- chore(editorconfig): no final newline by default, override where actually needed/desired
