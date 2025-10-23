@@ -7,8 +7,10 @@
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
+
         pkgs = nixpkgs.legacyPackages.${system};
         lib = nixpkgs.legacyPackages.${system}.lib;
+        stdenv = pkgs.gcc15Stdenv;
 
         nativeBuildInputs = with pkgs; [
           pkg-config
@@ -26,7 +28,7 @@
         ];
 
       in {
-        packages.default = pkgs.stdenv.mkDerivation {
+        packages.default = stdenv.mkDerivation {
           pname = "vendr";
           version = "0.2.1";
           src = ./.;
