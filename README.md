@@ -1,6 +1,10 @@
+<!--
+SPDX-FileCopyrightText: 2025 Will Reed
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
 vendr
 =====
-A better way to get your software's dependencies.
+A better way to manage your projects' dependencies.
 
 "Just use git submodules"
 -------------------------
@@ -8,10 +12,7 @@ No. Git submodules aren't a good way to vendor your dependencies. When you
 depend on something, you're likely depending on a tagged release of the 
 repository in question. By default, a git submodule is cloned for it's entire 
 depth, which is significantly larger than a repository being fetched at 
-one level of 'depth'. Due to the fact that we do not live in a perfect world
-where projects offer archives of their work at each release (not automatically 
-generated archives made by git(hub/lab) or other forges), I made this small 
-program to supplement that.
+one level of 'depth'. See the [Similar Software](#similar-software) section for more detail.
 
 ---
 Usage
@@ -56,5 +57,33 @@ See [INSTALL.md](./INSTALL.md)
 ---
 License
 -------
-Vendr is licensed under the GNU GPL version 3 (or later); see the [license file](./LICENSE) 
+Vendr is licensed under the GNU GPL version 3 (or later); see the [license file](./LICENSE.md) 
 for more information.
+
+---
+Contributing
+------------
+For contribution terms and guidelines, see the [contributing document](./CONTRIBUTING.md)
+
+---
+Similar software
+----------------
+- **Git submodules**:
+Mainly meant to be used when you are developing multiple repositories together, embedding one within another. 
+They require explicit initialization and can be fragile when switching branches. They are often overkill for 
+vendoring purposes due to their history being cloned in full.
+
+- **Git subtree**:
+Similar to Git submodules with more granular control, however still intermingles the subproject with your main
+project's history, which is often not particularly desired for dependencies you may be using at a tagged release.
+
+- **[Git subrepo](https://github.com/ingydotnet/git-subrepo)**:
+A more elegant alternative to submodules and subtrees, though it is still limited in scope to git repositories 
+by design.
+
+- **Direct (manual) vendoring**:
+Either adding vendored code to your project directly, or making use of shell scripts to add them after cloning. 
+This can be very simple, but requires manual updates and history tracking.
+
+**Vendr** tries to bridge the gap by allowing you to declare your dependencies as tagged git repositories which are 
+fetched shallow by default, as well as regular HTTP(S) downloads for regular single files or source archives.
