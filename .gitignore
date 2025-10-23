@@ -46,3 +46,6 @@ vendr.static
 
 # nix results
 result
+
+# tooling
+/compile_commands.json
