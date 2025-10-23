@@ -1,4 +1,6 @@
+// meson configure_file()
 #include "config.hpp"
+
 #include <format>
 #include <iostream>
 #include <optional>
@@ -28,20 +30,61 @@ int main(const int argc, const char *argv[]) {
     // remove './' and reduce to basename of executable
     argZero = stripArgZero(std::string(argv[0]));
 
-    // default behaviour
-    std::string tomlPath = "vendr.toml";
-    bool allTargets = true;
-    bool overwriteFiles = false;
-    std::string namedEntry;
+    std::string tomlPath = "vendr.toml"; // default file path
+    bool allTargets = true;              // default to all targets
+    bool overwriteFiles = false;         // default to not overwriting files
+    std::string namedEntry;              // storage for '-n/--name' argument
     
     args::ArgumentParser argParser(argZero);
 
-    args::ValueFlag<std::string> argFilename(argParser, "", "", {'f', "file"});
-    args::ValueFlag<std::string> argName(argParser, "", "", {'n', "name"});
-    args::Flag argOverwrite(argParser, "", "", {'w', "overwrite"});
-    args::Flag argVerbose(argParser, "", "", {'v', "verbose"});
-    args::Flag argVersion(argParser, "", "", {'V', "version"});
-    args::Flag argHelp(argParser, "", "", {'h', "help"});
+    args::ValueFlag<std::string> argFilename(
+        argParser,
+        "file",
+        "specify file path",
+        {'f', "file"}
+    );
+    
+    args::ValueFlag<std::string> argName(
+        argParser,
+        "name",
+        "specify an entry name",
+        {'n', "name"}
+    );
+    
+    args::Flag argOverwrite(
+        argParser,
+        "overwrite",
+        "overwrite existing files",
+        {'w', "overwrite"}
+    );
+    
+    args::Flag argVerbose(
+        argParser,
+        "",
+        "",
+        {'v', "verbose"}
+    );
+    
+    args::Flag argVersion(
+        argParser,
+        "version",
+        "display version info",
+        {'V', "version"}
+    );
+    
+    args::Flag argHelp(
+        argParser,
+        "help",
+        "display usage info",
+        {'h', "help"}
+    );
+    
+    args::Flag argManual(
+        argParser,
+        "manual",
+        "open the manual page for vendr",
+        {'m', "manual"}
+    );
 
     try {
         argParser.ParseCLI(argc, argv);
@@ -50,6 +93,11 @@ int main(const int argc, const char *argv[]) {
         return 1;
     }
 
+    if (argManual) {
+        vendr::usage::manual();
+        return 0;
+    }
+    
     if (argVersion) {
         vendr::usage::version();
         return 0;
@@ -59,7 +107,7 @@ int main(const int argc, const char *argv[]) {
         vendr::usage::help();
         return 0;
     }
-
+    
     if (argVerbose)
         vendr::log::verbose = args::get(argVerbose);
 

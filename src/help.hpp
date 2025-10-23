@@ -82,7 +82,14 @@ namespace log {
     }
 }
 namespace usage {
-
+    void manual() {
+        int ecode = std::system("man 1 vendr");
+        if (ecode != 0) {
+            std::println("command returned exit code {}", ecode);
+            std::exit(ecode);
+        }
+    }
+    
     void help() {
         //using vendr::log::vendr::log::useColor;
         std::println("{}{}{} options:", (vendr::log::useColor ? "\033[34m" : ""), argZero, (vendr::log::useColor ? "\033[0m" : ""));
@@ -91,6 +98,7 @@ namespace usage {
         std::println("  -w,--overwrite\toverwrite existing files");
         std::println("  -v,--verbose\t\tproduce more output for operations");
         std::println("  -h,--help\t\tdisplay usage info");
+        std::println("  -m,--manual\t\topen the manual page for vendr");
         std::println("  -V,--version\t\tdisplay version info");
     }
 
