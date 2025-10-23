@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstring>
 #include <string>
 #include <format>
 #include <filesystem>
@@ -12,11 +11,7 @@
 #include <print>
 
 #include <git2.h>
-#include <toml++/toml.hpp>
-
 #include <cpr/cpr.h>
-// #include "macros.hpp"
-// #include "log.hpp"
 
 namespace fs = std::filesystem;
 
