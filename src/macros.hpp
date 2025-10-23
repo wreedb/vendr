@@ -1,4 +1,8 @@
+// SPDX-FileCopyrightText: 2025 Will Reed
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #pragma once
+
 #include <git2.h>
 
 #define GITCHECK(call) do { \

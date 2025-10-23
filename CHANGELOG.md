@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2025 Will Reed
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -84,3 +88,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - build(meson): add install-docs and docdir options, for where to install examples and licenses
 - build(flake): consolidate duplicate input lists, strip installed executable
 - chore(editorconfig): no final newline by default, override where actually needed/desired
+
+## [Unreleased] - 2025-10-23
+
+### Changed
+- build(flake): use gcc 15 for flake stdenv, consistent with my host machine
+- chore(gitignore): add compile_commands.json to ignore for clang-tidy
+- chore(src): clean unnecessary include of cstring
+- feat(src): add -m,--manual option to open than man(1) page for vendr
+- docs(readme): add section about similar software
+- chore: add SPDX license sections
+
+### Added
+- build(packaging): added '-git' variant of PKGBUILD which follows repository HEAD

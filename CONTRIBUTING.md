@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2025 Will Reed
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
 Contributing to vendr
 =====================
 If you'd like to contribute to Vendr, you must agree that any and all 

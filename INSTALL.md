@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2025 Will Reed
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
 Build Requirements
 ========
 Vendr uses the [Meson](https://mesonbuild.com) build system, and by extension 

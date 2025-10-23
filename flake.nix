@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2025 Will Reed
+# SPDX-License-Identifier: GPL-3.0-or-later
 {
   description = "Easily vendor your projects' dependencies";
 
