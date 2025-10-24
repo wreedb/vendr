@@ -62,37 +62,38 @@ namespace vendr {
          .depth = depth};
     }
 
+    std::string color(const std::string& num) {
+        if (!vendr::log::useColor)
+            return std::string("");
+        else
+            return std::format("\033[{}m", num);
+    }
+    
     int fetchProgress(const git_indexer_progress *stats, void *payload) {
-        using vendr::log::useColor;
-
         int percentage = (stats->total_objects > 0) ? (stats->received_objects * 100) / stats->total_objects : 0;
-        std::cout
-        << std::format
+        std::cout << std::format
         ("\r{}{}{}: git fetch [{}{:3}%{}]",
-         (useColor ? "\033[32m" : ""),
-         argZero,
-         (useColor ? "\033[0m"  : ""),
-         (useColor ? "\033[32m" : ""),
-         percentage,
-         (useColor ? "\033[0m"  : ""))
-	    << std::flush;
+        vendr::color("32"),
+        argZero,
+        vendr::color("0"),
+        vendr::color("32"),
+        percentage,
+        vendr::color("0"))
+        << std::flush;
         return 0;
     }
 
     void checkoutProgress(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
-        using vendr::log::useColor;
-
         int percentage = (totalSteps > 0) ? (completedSteps * 100) / totalSteps : 0;
-        std::cout
-        << std::format
+        std::cout << std::format
         ("\r{}{}{}: git checkout [{}{:3}%{}]",
-         (useColor ? "\033[32m" : ""),
-         argZero,
-         (useColor ? "\033[0m"  : ""),
-         (useColor ? "\033[32m" : ""),
-         percentage,
-         (useColor ? "\033[0m"  : ""))
-	    << std::flush;
+        vendr::color("32"),
+        argZero,
+        vendr::color("0"),
+        vendr::color("32"),
+        percentage,
+        vendr::color("0"))
+        << std::flush;
     }
 
     httpUrl httpParseUrl(const std::string& url) {
@@ -215,15 +216,15 @@ namespace vendr {
                        cpr::cpr_off_t uploadNow,
                        intptr_t userdata) {
                         int percentage = (downloadNow > 0) ? (downloadNow * 100) / downloadTotal : 0;
-                        std::cout << std::format(
-                        "\r{}{}{}: download [{}{:3}%{}]",
-                        (useColor ? "\033[32m" : ""),
+                        std::cout << std::format
+                        ("\r{}{}{}: download [{}{:3}%{}]",
+                        vendr::color("32"),
                         argZero,
-                        (useColor ? "\033[0m" : ""),
-                        (useColor ? "\033[32m" : ""),
+                        vendr::color("0"),
+                        vendr::color("32"),
                         percentage,
-                        (useColor ? "\033[0m" : "")
-                        ) << std::flush;
+                        vendr::color("0"))
+                        << std::flush;
                         return true;
                     }
             });
@@ -236,21 +237,20 @@ namespace vendr {
                        cpr::cpr_off_t uploadTotal,
                        cpr::cpr_off_t uploadNow,
                        intptr_t userdata) {
-                        
                         double mb = downloadNow / 1'000'000.0;
-                        std::cout << std::format(
-                        "\r{}{}{}: download [{}{:.1f}{}] MB",
-                        (useColor ? "\033[32m" : ""),
+                        std::cout << std::format
+                        ("\r{}{}{}: download [{}{:.1f}{}] MB",
+                        vendr::color("32"),
                         argZero,
-                        (useColor ? "\033[0m" : ""),
-                        (useColor ? "\033[32m" : ""),
+                        vendr::color("0"),
+                        vendr::color("32"),
                         mb,
-                        (useColor ? "\033[0m" : "")
-                        ) << std::flush;
+                        vendr::color("0"))
+                        << std::flush;
                         return true;
                     }
-            });
-            
+                }
+			);
         }
         
         // stream to disk as it downloads

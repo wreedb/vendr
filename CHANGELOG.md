@@ -98,6 +98,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(src): add -m,--manual option to open than man(1) page for vendr
 - docs(readme): add section about similar software
 - chore: add SPDX license sections
+- refactor(src): replace useColor ternaries with helper function calls
 
 ### Added
 - build(packaging): added '-git' variant of PKGBUILD which follows repository HEAD
