@@ -99,6 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - docs(readme): add section about similar software
 - chore: add SPDX license sections
 - refactor(src): replace useColor ternaries with helper function calls
+- docs(install): add instructions trying vendr with nix
 
 ### Added
 - build(packaging): added '-git' variant of PKGBUILD which follows repository HEAD

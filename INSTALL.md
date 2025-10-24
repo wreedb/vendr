@@ -52,3 +52,10 @@ Files named `vendr-<version>-<arch>.package.tar.*` contain the executable, manua
 pages and shell completions.
 
 Source-only archives named `vendr-<version>.source.tar.*` are also available.
+
+Nix Flake
+=========
+For users of the Nix package manager, you can try **vendr** from a shell by issuing:
+```sh
+nix shell github:wreedb/vendr
+```
