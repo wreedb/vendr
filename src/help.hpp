@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "i18n.hpp"
 #include <cstdlib>
 #include <string>
 #include <print>
@@ -30,84 +31,91 @@ std::string stripArgZero(const std::string& arg) {
 }
 
 namespace vendr {
-namespace log {
     inline bool useColor = hasEnv("NO_COLOR") ? false : true;
     inline bool verbose = false;
+    
+    std::string color(const std::string& num) {
+        if (!vendr::useColor)
+            return std::string("");
+        else
+            return std::format("\033[{}m", num);
+    }
+    
+namespace log {
 
     template <typename... Args>
-    void err (std::format_string<Args...> fmt, Args&&... args) {
-	   std::string fmtMsg = std::format(fmt, std::forward<Args>(args)...);
-	   std::cerr
-       << (useColor ? "\033[31m" : "")
-  	   << argZero
-  	   << (useColor ? "\033[0m"  : "")
-       << ": "
-  	   << fmtMsg
-  	   << std::endl;
+    void err (std::string_view msg, Args&&... fmt) {
+	    std::string fmtMsg = std::vformat(_(msg.data()), std::make_format_args(fmt...));
+	    std::cerr
+		<< vendr::color("31")
+  	    << argZero
+        << vendr::color("0")
+        << ": "
+  	    << fmtMsg
+  	    << std::endl;
     }
 
     template <typename... Args>
-    void info (std::format_string<Args...> fmt, Args&&... args) {
-	   std::string fmtMsg = std::format(fmt, std::forward<Args>(args)...);
-	   std::cout
-       << (useColor ? "\033[32m" : "")
-  	   << argZero
-  	   << (useColor ? "\033[0m" : "")
-       << ": "
-  	   << fmtMsg
-  	   << std::endl;
-    }
-
-    template <typename... Args>
-    void warn (std::format_string<Args...> fmt, Args&&... args) {
-        if (!verbose) return;
-	    std::string fmtMsg = std::format(fmt, std::forward<Args>(args)...);
+    void info (std::string_view msg, Args&&... fmt) {
+	    std::string fmtMsg = std::vformat(_(msg.data()), std::make_format_args(fmt...));
 	    std::cout
-        << (useColor ? "\033[33m" : "")
+        << vendr::color("34")
+  	    << argZero
+        << vendr::color("0")
+        << ": "
+  	    << fmtMsg
+  	    << std::endl;
+    }
+
+    template <typename... Args>
+    void warn (std::string_view msg, Args&&... fmt) {
+        if (!vendr::verbose) return;
+	    std::string fmtMsg = std::vformat(_(msg.data()), std::make_format_args(fmt...));
+	    std::cout
+        << vendr::color("33")
         << argZero
-        << (useColor ? "\033[0m" : "")
+        << vendr::color("0")
         << ": "
         << fmtMsg
         << std::endl;
     }
 
     template <typename... Args>
-    [[noreturn]] void fatal(int exitCode, std::format_string<Args...> fmt, Args&&... args) {
-        std::string fmtMsg = std::format(fmt, std::forward<Args>(args)...);
+    [[noreturn]] void fatal(int exitCode, std::string_view msg, Args&&... fmt) {
+        std::string fmtMsg = std::vformat(_(msg.data()), std::make_format_args(fmt...));
         std::cerr
-        << (useColor ? "\033[1;31m" : "")
+        << vendr::color("31")
         << argZero
-        << (useColor ? "\033[0m"    : "")
-        << " (fatal): "
+        << vendr::color("0")
+        << _(" (fatal): ")
         << fmtMsg
         << std::endl;
         std::exit(exitCode);
     }
-}
+} // end namespace log
 namespace usage {
     void manual() {
         int ecode = std::system("man 1 vendr");
         if (ecode != 0) {
-            std::println("command returned exit code {}", ecode);
+            vendr::log::err("command returned exit code {}", ecode);
             std::exit(ecode);
         }
     }
     
     void help() {
-        //using vendr::log::vendr::log::useColor;
-        std::println("{}{}{} options:", (vendr::log::useColor ? "\033[34m" : ""), argZero, (vendr::log::useColor ? "\033[0m" : ""));
-        std::println("  -f,--file <path>\tspecify file path");
-        std::println("  -n,--name <name>\tspecify entry name");
-        std::println("  -w,--overwrite\toverwrite existing files");
-        std::println("  -v,--verbose\t\tproduce more output for operations");
-        std::println("  -h,--help\t\tdisplay usage info");
-        std::println("  -m,--manual\t\topen the manual page for vendr");
-        std::println("  -V,--version\t\tdisplay version info");
+        vendr::log::info("options");
+        std::cout << _("  -f,--file <path>\tspecify file path") << "\n";
+        std::cout << _("  -n,--name <name>\tspecify entry name") << "\n";
+        std::cout << _("  -w,--overwrite\toverwrite existing files") << "\n";
+        std::cout << _("  -v,--verbose\t\tproduce more output for operations") << "\n";
+        std::cout << _("  -h,--help\t\tdisplay usage info") << "\n";
+        std::cout << _("  -m,--manual\t\topen the manual page for vendr") << "\n";
+        std::cout << _("  -V,--version\t\tdisplay version info") << "\n";
     }
 
     void version() {
-        // using vendr::log::vendr::log::useColor;
-        std::println("{}{}{}: version {}", (vendr::log::useColor ? "\033[34m" : ""), argZero, (vendr::log::useColor ? "\033[0m" : ""), projectVersion);
+        vendr::log::info("version {}", projectVersion);
     }
-}
-}
+} // end namespace usage
+
+} // end namespace vendr

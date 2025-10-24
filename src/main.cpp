@@ -3,6 +3,7 @@
 
 // meson configure_file()
 #include "config.hpp"
+#include "i18n.hpp"
 
 #include <format>
 #include <iostream>
@@ -24,10 +25,9 @@ static const std::string projectVersion = std::string(PROJECT_VERSION);
 std::string argZero = "vendr";
 
 // project-local headers
-#include "help.hpp"
 #include "macros.hpp"
+#include "help.hpp"
 #include "vendr.hpp"
-
 
 int main(const int argc, const char *argv[]) {
     // remove './' and reduce to basename of executable
@@ -112,7 +112,7 @@ int main(const int argc, const char *argv[]) {
     }
     
     if (argVerbose)
-        vendr::log::verbose = args::get(argVerbose);
+        vendr::verbose = args::get(argVerbose);
 
     if (argFilename)
         tomlPath = args::get(argFilename);

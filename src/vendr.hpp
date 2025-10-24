@@ -62,13 +62,6 @@ namespace vendr {
          .depth = depth};
     }
 
-    std::string color(const std::string& num) {
-        if (!vendr::log::useColor)
-            return std::string("");
-        else
-            return std::format("\033[{}m", num);
-    }
-    
     int fetchProgress(const git_indexer_progress *stats, void *payload) {
         int percentage = (stats->total_objects > 0) ? (stats->received_objects * 100) / stats->total_objects : 0;
         std::cout << std::format
@@ -130,7 +123,6 @@ namespace vendr {
     }
 
     int get(const vendr::file& file, const bool& overwrite) {
-        using vendr::log::useColor;
 	    std::string outputFile;
 	    vendr::httpUrl vUrl = httpParseUrl(file.url);
 	    const cpr::Url url = cpr::Url{vUrl.full};
