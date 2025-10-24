@@ -103,3 +103,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - build(packaging): added '-git' variant of PKGBUILD which follows repository HEAD
+- feat(i18n): header for i18n support with gettext
