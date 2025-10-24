@@ -1,0 +1,144 @@
+# French translations for PACKAGE package.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-24 00:05-0500\n"
+"PO-Revision-Date: 2025-10-24 00:05-0500\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/help.hpp:90
+msgid " (fatal): "
+msgstr ""
+
+#: src/help.hpp:100
+#, c++-format
+msgid "command returned exit code {}"
+msgstr ""
+
+#: src/help.hpp:107
+msgid "  -f,--file <path>\tspecify file path"
+msgstr ""
+
+#: src/help.hpp:108
+msgid "  -n,--name <name>\tspecify entry name"
+msgstr ""
+
+#: src/help.hpp:109
+msgid "  -w,--overwrite\toverwrite existing files"
+msgstr ""
+
+#: src/help.hpp:110
+msgid "  -v,--verbose\t\tproduce more output for operations"
+msgstr ""
+
+#: src/help.hpp:111
+msgid "  -h,--help\t\tdisplay usage info"
+msgstr ""
+
+#: src/help.hpp:112
+msgid "  -m,--manual\t\topen the manual page for vendr"
+msgstr ""
+
+#: src/help.hpp:113
+msgid "  -V,--version\t\tdisplay version info"
+msgstr ""
+
+#: src/help.hpp:117
+#, c++-format
+msgid "version {}"
+msgstr ""
+
+#: src/main.cpp:167
+#, c++-format
+msgid "no entry found by name '{}'"
+msgstr ""
+
+#: src/vendr.hpp:122
+#, c++-format
+msgid "invalid url provided: {}"
+msgstr ""
+
+#: src/vendr.hpp:169
+#, c++-format
+msgid "failed to create parent directories for {}!"
+msgstr ""
+
+#: src/vendr.hpp:179
+#, c++-format
+msgid "file {} already exists, not overwriting"
+msgstr ""
+
+#: src/vendr.hpp:185
+#, c++-format
+msgid "file {} already exists, overwriting"
+msgstr ""
+
+#: src/vendr.hpp:190
+#, c++-format
+msgid "filesystem error encounter while removing {}"
+msgstr ""
+
+#: src/vendr.hpp:216 src/vendr.hpp:239
+msgid "download"
+msgstr ""
+
+#: src/vendr.hpp:255
+#, c++-format
+msgid "failure writing data to {}"
+msgstr ""
+
+#: src/vendr.hpp:281
+#, c++-format
+msgid "directory {} already exists, not overwriting"
+msgstr ""
+
+#: src/vendr.hpp:288
+#, c++-format
+msgid "directory {} already exists, overwriting"
+msgstr ""
+
+#: src/vendr.hpp:291
+#, c++-format
+msgid "error encountered while removing {}"
+msgstr ""
+
+#: src/vendr.hpp:390
+#, c++-format
+msgid "path {} doesn't exist!"
+msgstr ""
+
+#: src/vendr.hpp:411 src/vendr.hpp:448
+#, c++-format
+msgid "index #{} in {} doesn't contain the required 'name' field!"
+msgstr ""
+
+#: src/vendr.hpp:415 src/vendr.hpp:453
+#, c++-format
+msgid "table {} doesn't contain the required 'url' field!"
+msgstr ""
+
+#: src/vendr.hpp:419
+#, c++-format
+msgid "table {} doesn't contain the required 'path' field!"
+msgstr ""
+
+#: src/vendr.hpp:423
+#, c++-format
+msgid "table {} doesn't contain the required 'tag' field!"
+msgstr ""
+
+#: src/vendr.hpp:466
+#, c++-format
+msgid "error encountered while parsing file {}"
+msgstr ""

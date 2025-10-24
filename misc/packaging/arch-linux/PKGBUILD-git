@@ -12,7 +12,7 @@ source=("git+${url}.git")
 b2sums=('SKIP')
 provides=('vendr')
 depends=(libgit2 curl tomlplusplus)
-makedepends=(meson gcc scdoc)
+makedepends=(meson gcc scdoc gettext)
 conflicts=("${_pkgname}")
 
 _srcdir="${_pkgname}"
@@ -30,7 +30,7 @@ prepare() {
         -D tomlpp-header-only=false \
         -D cpp_args="${CXXFLAGS}" \
         -D cpp_link_args="${LDFLAGS}" \
-        -D install-docs=false
+        -D docdir=share/doc/${_pkgname}
 }
 
 build() {
@@ -41,7 +41,7 @@ build() {
 package() {
     cd ${_srcdir}
     meson install -C .build --destdir ${pkgdir}
-    install -m 644 examples/*.toml -Dt ${pkgdir}/usr/share/doc/${pkgname}
-    install -dm 0755 ${pkgdir}/usr/share/licenses/${pkgname}
-    cp -a LICENSE.md licenses/* -t ${pkgdir}/usr/share/licenses/${pkgname}
+    install -dm 0755 ${pkgdir}/usr/share/licenses/${_pkgname}
+    mv ${pkgdir}/usr/share/doc/${_pkgname}/LICENSE.md -t ${pkgdir}/usr/share/licenses/${_pkgname}
+    mv ${pkgdir}/usr/share/doc/${_pkgname}/licenses/third-party -t ${pkgdir}/usr/share/licenses/${_pkgname}
 }
