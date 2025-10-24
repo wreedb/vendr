@@ -209,10 +209,11 @@ namespace vendr {
                        intptr_t userdata) {
                         int percentage = (downloadNow > 0) ? (downloadNow * 100) / downloadTotal : 0;
                         std::cout << std::format
-                        ("\r{}{}{}: download [{}{:3}%{}]",
+                        ("\r{}{}{}: {} [{}{:3}%{}]",
                         vendr::color("32"),
                         argZero,
                         vendr::color("0"),
+                        _("download"),
                         vendr::color("32"),
                         percentage,
                         vendr::color("0"))
@@ -231,10 +232,11 @@ namespace vendr {
                        intptr_t userdata) {
                         double mb = downloadNow / 1'000'000.0;
                         std::cout << std::format
-                        ("\r{}{}{}: download [{}{:.1f}{}] MB",
+                        ("\r{}{}{}: {} [{}{:.1f}{}] MB",
                         vendr::color("32"),
                         argZero,
                         vendr::color("0"),
+                        _("download"),
                         vendr::color("32"),
                         mb,
                         vendr::color("0"))

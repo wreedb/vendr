@@ -101,6 +101,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor(src): replace useColor ternaries with helper function calls
 - docs(install): add instructions trying vendr with nix
 - refactor(src): replace ternaries in vendr::log functions, move verbose/useColor out of log ns
+- chore(src): all strings wrapped for gettext in vendr.hpp
 
 ### Added
 - build(packaging): added '-git' variant of PKGBUILD which follows repository HEAD
