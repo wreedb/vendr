@@ -36,6 +36,9 @@ repositories to fetch at a specific tag.
 	This will cause *vendr* to be more verbose when documenting its actions at
 	runtime.
 
+*-m, --manual*
+	Open this manual page for viewing.
+
 *-h, --help*
 	Display usage information.
 
