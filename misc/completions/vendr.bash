@@ -26,11 +26,11 @@ _vendr_complete()
     done
 
 
-    flags="-h --help -V --version -v --verbose -f --file -n --name -w --overwrite"
+    flags="-h --help -V --version -v --verbose -f --file -n --name -w --overwrite -m --manual"
 
     case "${prev}" in
         --file|-f)
-            local _files="$(command ls *.toml 2>/dev/null)"
+            local _files="$(command ls *.toml */*.toml 2>/dev/null)"
             COMPREPLY=( $(compgen -W "${_files}" -- "${cur}") )
             return 0
             ;;

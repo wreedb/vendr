@@ -22,19 +22,18 @@ _vendr() {
         '(- *)'{-v,--verbose}'[Display more detailed output of actions]' \
         '(- *)'{-m,--manual}'[Open the manual page for vendr]' \
         {-w,--overwrite}'[Overwrite existing files]' \
-        {-f,--file}'[Specify TOML file]:toml file:_files' \
+        {-f,--file}'[Specify TOML file]:toml file:_vendr_toml_files' \
         {-n,--name}'[Specify name]:name:_vendr_names'
 }
 
-# _vendr_toml_files() {
-#     local toml_files
-#     toml_files=()
-#     toml_files=(*.toml(N))
-    
-#     if (( ${#toml_files[@]} > 0 )); then
-#         _values 'toml files' ${toml_files[@]}
-#     fi
-# }
+_vendr_toml_files() {
+    toml_files=(*.toml(N) */*.toml(N))
+    # toml_files=(*.toml(N))
+  
+    if (( ${#toml_files[@]} > 0 )); then
+        _values 'toml files' ${toml_files[@]}
+    fi
+}
 
 _vendr_names() {
     local names _toml_path="vendr.toml"

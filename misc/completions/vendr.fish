@@ -15,7 +15,7 @@ end
 
 # Helper function to list TOML files
 function __vendr_toml_files
-    ls *.toml 2>/dev/null
+    ls *.toml */*.toml 2>/dev/null
 end
 
 # Helper function to extract names from TOML file
@@ -31,6 +31,7 @@ complete -c vendr -s h -l help -d "Show help information"
 complete -c vendr -s V -l version -d "Show version information"
 complete -c vendr -s v -l vebose -d "Display more detailed output of actions"
 complete -c vendr -s w -l overwrite -d "Overwrite existing files"
+complete -c vendr -s m -l manual -d "Open the manual page for vendr"
 
 # File flag with TOML file completion
 complete -c vendr -s f -l file -d "Specify TOML file" -r -f -a "(__vendr_toml_files)"
