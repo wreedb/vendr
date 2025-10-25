@@ -107,3 +107,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - build(packaging): added '-git' variant of PKGBUILD which follows repository HEAD
 - feat(i18n): header for i18n support with gettext
 - chore(licenses): add libcpr license
+
+## [Unreleased] - 2025-10-24
+
+### Changed
+- chore(packaging): add gettext to PKGBUILD makedepends
+
+## [Unreleased] - 2025-10-25
+
+### Added
+- build(i18n): add meson install script for translations
+
+### Changed
+- build(meson): add options for installing translation files

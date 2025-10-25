@@ -18,10 +18,13 @@ cxx = meson.get_compiler('cpp')
 manpages_feat = get_option('man-pages')
 scdoc = find_program('scdoc', required: manpages_feat)
 
+translations_feat = get_option('translations')
+msgfmt = find_program('msgfmt', required: translations_feat)
+
 date_month = run_command('date', '+%B', check: true).stdout().strip()
 date_year = run_command('date', '+%Y', check: true).stdout().strip()
 
-if scdoc.found()
+if scdoc.found() and manpages_feat.enabled()
   conf_manpage = configuration_data()
   conf_manpage.set('MONTH', date_month)
   conf_manpage.set('YEAR', date_year)
@@ -62,6 +65,10 @@ if scdoc.found()
   )
 endif
 
+if msgfmt.found() and translations_feat.enabled()
+  meson.add_install_script('aux/meson-pi-i18n.sh', get_option('prefix') / get_option('localedir'))
+endif
+
 # default is true, but easy to disable if undesired.
 if get_option('install-docs')
   opt_docdir = ''
@@ -89,7 +96,6 @@ if get_option('gen-pkgconfig')
     install: true,
     install_dir: get_option('datadir') / 'pkgconfig',
   )
-
 endif
 
 completions = get_option('shell-completions')
@@ -164,6 +170,7 @@ deps += curl_dep
 
 # finalize/write the config.hpp
 config_h.set_quoted('PROJECT_VERSION', meson.project_version())
+config_h.set_quoted('LOCALEDIR', get_option('localedir'))
 config_h.set10('SYSTEM_ARGSHXX', get_option('system-argshxx'))
 configure_file(output: 'config.hpp', configuration: config_h)
 
