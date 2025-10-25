@@ -1,14 +1,14 @@
-# French translations for PACKAGE package.
-# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# French translations for vendr package.
+# Copyright (C) 2025 Will Reed
+# This file is distributed under the same license as the vendr package.
 # Automatically generated, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: vendr 0.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-24 00:05-0500\n"
-"PO-Revision-Date: 2025-10-24 00:05-0500\n"
+"POT-Creation-Date: 2025-10-25 18:41-0500\n"
+"PO-Revision-Date: 2025-10-25 18:41-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -25,6 +25,10 @@ msgstr " (fatal) "
 #, c++-format
 msgid "command returned exit code {}"
 msgstr "commande a renvoye le code sortie {}"
+
+#: src/help.hpp:106
+msgid "options"
+msgstr "options"
 
 #: src/help.hpp:107
 msgid "  -f,--file <path>\tspecify file path"
@@ -44,7 +48,7 @@ msgstr "  -v,--verbose\t\taffichez davantage de resultats concernant les actions
 
 #: src/help.hpp:111
 msgid "  -h,--help\t\tdisplay usage info"
-msgstr "  -h,--help\t\taffichez les informations d'utilisation"
+msgstr "  -v,--verbose\t\taffichez davantage de resultats concernant les actions"
 
 #: src/help.hpp:112
 msgid "  -m,--manual\t\topen the manual page for vendr"
@@ -98,47 +102,65 @@ msgstr "telechargement"
 msgid "failure writing data to {}"
 msgstr "echec de l'ecriture de donnees dans le fichier {}"
 
-#: src/vendr.hpp:281
+#. i18n: non-translatable
+#: src/vendr.hpp:265
+#, c++-format
+msgid "{}"
+msgstr ""
+
+#. i18n: non-translatable
+#: src/vendr.hpp:276
+#, c++-format
+msgid "{} -> {}"
+msgstr ""
+
+#: src/vendr.hpp:285
 #, c++-format
 msgid "directory {} already exists, not overwriting"
 msgstr "fichier {} existe deja, ne le supprime"
 
-#: src/vendr.hpp:288
+#: src/vendr.hpp:292
 #, c++-format
 msgid "directory {} already exists, overwriting"
 msgstr "fichier {} existe deja, supprime"
 
-#: src/vendr.hpp:291
+#: src/vendr.hpp:295
 #, c++-format
 msgid "error encountered while removing {}"
 msgstr "echec de la suppression du fichier {}"
 
-#: src/vendr.hpp:390
+#. i18n: non-translatable
+#: src/vendr.hpp:362
+#, c++-format
+msgid "{}@{} -> {}"
+msgstr ""
+
+#: src/vendr.hpp:395
 #, c++-format
 msgid "path {} doesn't exist!"
 msgstr "chemin du fichier {} no le existe"
 
-#: src/vendr.hpp:411 src/vendr.hpp:448
+#: src/vendr.hpp:416 src/vendr.hpp:453
 #, c++-format
 msgid "index #{} in {} doesn't contain the required 'name' field!"
 msgstr "index #{} dans {} ne possede pas le 'name' requis"
 
-#: src/vendr.hpp:415 src/vendr.hpp:453
+#: src/vendr.hpp:420 src/vendr.hpp:458
 #, c++-format
 msgid "table {} doesn't contain the required 'url' field!"
 msgstr "table {} ne dispose pas le 'url' requis"
 
-#: src/vendr.hpp:419
+#: src/vendr.hpp:424
 #, c++-format
 msgid "table {} doesn't contain the required 'path' field!"
 msgstr "table {} ne dispose pas le 'path' requis"
 
-#: src/vendr.hpp:423
+#: src/vendr.hpp:428
 #, c++-format
 msgid "table {} doesn't contain the required 'tag' field!"
 msgstr "table {} ne dispose pas le 'tag' requis"
 
-#: src/vendr.hpp:466
+#: src/vendr.hpp:471
 #, c++-format
 msgid "error encountered while parsing file {}"
 msgstr "echec de l'analyse du fichier {}"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-langs=(fr de es)
+langs=(fr es)
 
 
 potfile=.build/vendr.pot
@@ -13,6 +13,14 @@ sources=($(find src -name \*.cpp -o -name \*.hpp -! -name toml.hpp -! -name args
 
 xgettext -C --keyword=_ \
          --keyword=_n:1,2 \
+         --keyword=vendr::log::err:1 \
+         --keyword=vendr::log::warn:1 \
+         --keyword=vendr::log::info:1 \
+         --keyword=vendr::log::fatal:2 \
+         --keyword=err:1 \
+         --keyword=warn:1 \
+         --keyword=info:1 \
+         --keyword=fatal:2 \
          --no-git \
          --copyright-holder="Will Reed" \
          --add-comments \

@@ -164,7 +164,7 @@ int main(const int argc, const char *argv[]) {
         } else if (uRepo) {
             vendr::fetch(uRepo.value(), overwriteFiles);
         } else {
-            vendr::log::err(_("no entry found by name '{}'"), namedEntry);
+            vendr::log::err("no entry found by name '{}'", namedEntry);
             return 1;
         }
     }

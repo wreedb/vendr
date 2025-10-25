@@ -1,14 +1,14 @@
-# Spanish translations for PACKAGE package.
-# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Spanish translations for vendr package.
+# Copyright (C) 2025 Will Reed
+# This file is distributed under the same license as the vendr package.
 # Automatically generated, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: vendr 0.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-24 00:05-0500\n"
-"PO-Revision-Date: 2025-10-23 23:31-0500\n"
+"POT-Creation-Date: 2025-10-25 18:41-0500\n"
+"PO-Revision-Date: 2025-10-25 18:41-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: es\n"
@@ -25,6 +25,10 @@ msgstr " (incorregible): "
 #, c++-format
 msgid "command returned exit code {}"
 msgstr "el commando devolvio el codigo de salida {}"
+
+#: src/help.hpp:106
+msgid "options"
+msgstr "opciones"
 
 #: src/help.hpp:107
 msgid "  -f,--file <path>\tspecify file path"
@@ -67,7 +71,7 @@ msgstr "no encontre ninguna entrada con el nombre '{}'"
 #: src/vendr.hpp:122
 #, c++-format
 msgid "invalid url provided: {}"
-msgstr "url no valida"
+msgstr "url no valida: {}"
 
 #: src/vendr.hpp:169
 #, c++-format
@@ -96,49 +100,67 @@ msgstr "descargo"
 #: src/vendr.hpp:255
 #, c++-format
 msgid "failure writing data to {}"
-msgstr "no pude escribir los datos en {}"
+msgstr "no pude escribo los datos en {}"
 
-#: src/vendr.hpp:281
+#. i18n: non-translatable
+#: src/vendr.hpp:265
+#, c++-format
+msgid "{}"
+msgstr ""
+
+#. i18n: non-translatable
+#: src/vendr.hpp:276
+#, c++-format
+msgid "{} -> {}"
+msgstr ""
+
+#: src/vendr.hpp:285
 #, c++-format
 msgid "directory {} already exists, not overwriting"
 msgstr "directorio {} ya existe, no voy a borrarlo"
 
-#: src/vendr.hpp:288
+#: src/vendr.hpp:292
 #, c++-format
 msgid "directory {} already exists, overwriting"
 msgstr "directorio {} ya existe, borrando"
 
-#: src/vendr.hpp:291
+#: src/vendr.hpp:295
 #, c++-format
 msgid "error encountered while removing {}"
-msgstr "no pude eliminar {}"
+msgstr "no pude elimino {}"
 
-#: src/vendr.hpp:390
+#. i18n: non-translatable
+#: src/vendr.hpp:362
+#, c++-format
+msgid "{}@{} -> {}"
+msgstr ""
+
+#: src/vendr.hpp:395
 #, c++-format
 msgid "path {} doesn't exist!"
 msgstr "la ruta del {} no existe!"
 
-#: src/vendr.hpp:411 src/vendr.hpp:448
+#: src/vendr.hpp:416 src/vendr.hpp:453
 #, c++-format
 msgid "index #{} in {} doesn't contain the required 'name' field!"
 msgstr "indice #{} en {} no tiene el 'name' requerido!"
 
-#: src/vendr.hpp:415 src/vendr.hpp:453
+#: src/vendr.hpp:420 src/vendr.hpp:458
 #, c++-format
 msgid "table {} doesn't contain the required 'url' field!"
 msgstr "tabla {} no tiene el 'url' requerido!"
 
-#: src/vendr.hpp:419
+#: src/vendr.hpp:424
 #, c++-format
 msgid "table {} doesn't contain the required 'path' field!"
 msgstr "tabla {} no tiene el 'path' requerido!"
 
-#: src/vendr.hpp:423
+#: src/vendr.hpp:428
 #, c++-format
 msgid "table {} doesn't contain the required 'tag' field!"
 msgstr "tabla {} no tiene el 'tag' requerido!"
 
-#: src/vendr.hpp:466
+#: src/vendr.hpp:471
 #, c++-format
 msgid "error encountered while parsing file {}"
-msgstr "no pude leer el archivo {}"
+msgstr "no pude leo el archivo {}"
