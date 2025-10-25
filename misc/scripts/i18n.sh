@@ -11,7 +11,14 @@ mkdir -p ${podir}
 
 sources=($(find src -name \*.cpp -o -name \*.hpp -! -name toml.hpp -! -name args.hxx -! -name i18n.hpp))
 
-xgettext --keyword=_ --keyword=_n:1,2 -o ${potfile} ${sources[@]}
+xgettext -C --keyword=_ \
+         --keyword=_n:1,2 \
+         --no-git \
+         --copyright-holder="Will Reed" \
+         --add-comments \
+         --package-name=vendr \
+         --package-version=$(cat version) \
+         -o ${potfile} ${sources[@]}
 
 for language in ${langs[@]}
 do

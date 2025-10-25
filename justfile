@@ -6,8 +6,11 @@ project-version := `cat version`
 current-date := `date +%Y-%m-%d`
 stage-dir := "{{project-name}}-{{project-version}}"
 
-_default:
-    @just -l
+_default: summary
+
+[group("maint")]
+gettext:
+    bash misc/scripts/i18n.sh
 
 [group("clean")]
 clean-flake:

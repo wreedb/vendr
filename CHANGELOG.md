@@ -120,3 +120,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - build(meson): add options for installing translation files
+- build(just): added gettext rule for updating translations
