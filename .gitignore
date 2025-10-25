@@ -5,6 +5,11 @@
 *.out
 *.tar.*
 
+# i18n
+/locale/
+*.pot
+*.mo
+
 # compress files
 *.zip
 *.gz
