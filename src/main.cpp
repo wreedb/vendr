@@ -3,6 +3,11 @@
 
 // meson configure_file()
 #include "config.hpp"
+
+#ifndef LOCALEDIR
+    #define LOCALEDIR "/usr/share/locale"
+#endif
+
 #include "i18n.hpp"
 
 #include <format>
@@ -30,6 +35,11 @@ std::string argZero = "vendr";
 #include "vendr.hpp"
 
 int main(const int argc, const char *argv[]) {
+    // locale initialization
+    std::locale::global(std::locale(""));
+    bindtextdomain("vendr", LOCALEDIR);
+    textdomain("vendr");
+    
     // remove './' and reduce to basename of executable
     argZero = stripArgZero(std::string(argv[0]));
 
@@ -154,7 +164,7 @@ int main(const int argc, const char *argv[]) {
         } else if (uRepo) {
             vendr::fetch(uRepo.value(), overwriteFiles);
         } else {
-            vendr::log::err("no entry found by name '{}'", namedEntry);
+            vendr::log::err(_("no entry found by name '{}'"), namedEntry);
             return 1;
         }
     }

@@ -97,7 +97,7 @@ namespace usage {
     void manual() {
         int ecode = std::system("man 1 vendr");
         if (ecode != 0) {
-            vendr::log::err("command returned exit code {}", ecode);
+            vendr::log::err(_("command returned exit code {}"), ecode);
             std::exit(ecode);
         }
     }
@@ -114,7 +114,7 @@ namespace usage {
     }
 
     void version() {
-        vendr::log::info("version {}", projectVersion);
+        vendr::log::info(_("version {}"), projectVersion);
     }
 } // end namespace usage
 

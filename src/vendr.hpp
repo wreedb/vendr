@@ -119,7 +119,7 @@ namespace vendr {
     	    return {match[1].str(), "/", "download"};
 	    }
 
-	    vendr::log::fatal(1, "invalid url provided: {}", url);
+	    vendr::log::fatal(1, _("invalid url provided: {}"), url);
     }
 
     int get(const vendr::file& file, const bool& overwrite) {
@@ -166,7 +166,7 @@ namespace vendr {
                 fs::create_directories(parent);
 
         } catch (const fs::filesystem_error& e) {
-            vendr::log::err("failed to create parent directories for {}!", outputFile);
+            vendr::log::err(_("failed to create parent directories for {}!"), outputFile);
             std::cerr << e.what() << "\n";
             return 1;
 
@@ -176,18 +176,18 @@ namespace vendr {
 		    // --overwrite not passed, check output path, but don't delete existing file or
 		    // download again
 		    if (fs::exists(fs::path(outputFile))) {
-			    vendr::log::warn("file {} already exists, not overwriting", outputFile);
+			    vendr::log::warn(_("file {} already exists, not overwriting"), outputFile);
 			    return 0;
 		    }
 
 	    } else {
 		    if (fs::exists(fs::path(outputFile))) {
-			    vendr::log::warn("file {} already exists, overwriting", outputFile);
+			    vendr::log::warn(_("file {} already exists, overwriting"), outputFile);
 			    try {
 				    // delete the file, not remove_all since it should only be a single file
 				    fs::remove(fs::path(outputFile));
 			    } catch (const fs::filesystem_error& e) {
-				    vendr::log::err("filesystem error encounter while removing {}", outputFile);
+				    vendr::log::err(_("filesystem error encounter while removing {}"), outputFile);
 				    std::cerr << e.what() << "\n";
 				    return 1;
 			    }
@@ -252,7 +252,7 @@ namespace vendr {
 		    cpr::WriteCallback{
 			    [&outfile, &outputFile](std::string_view data, intptr_t userdata) -> bool {
 				    if (!outfile.is_open()) {
-					    vendr::log::err("failure writing data to {}", outputFile);
+					    vendr::log::err(_("failure writing data to {}"), outputFile);
 					    return false;
 				    }
 				    outfile.write(data.data(), data.size());
@@ -278,17 +278,17 @@ namespace vendr {
     
 	    if (!overwrite) {
 		    if (fs::exists(fs::path(repo.path))) {
-			    vendr::log::warn("directory {} already exists, not overwriting", repo.path);
+			    vendr::log::warn(_("directory {} already exists, not overwriting"), repo.path);
 			    return 0;
 		    }
 	    }
 
 	    if (fs::exists(fs::path(repo.path))) {
 		    try {
-			    vendr::log::warn("directory {} already exists, overwriting", repo.path);
+			    vendr::log::warn(_("directory {} already exists, overwriting"), repo.path);
 			    fs::remove_all(fs::path(repo.path));
 		    } catch (fs::filesystem_error& e) {
-			    vendr::log::fatal(1, "error encountered while removing {}", repo.path);
+			    vendr::log::fatal(1, _("error encountered while removing {}"), repo.path);
 		    }
 	    }
 
@@ -387,7 +387,7 @@ namespace vendr {
 
     vendr::targets serializeToml(const std::string& filePath) {
         if (!fs::exists(fs::path(filePath)))
-            vendr::log::fatal(1, "path {} doesn't exist!", filePath);
+            vendr::log::fatal(1, _("path {} doesn't exist!"), filePath);
 
         try {
             auto rawToml = toml::parse_file(filePath);
@@ -408,19 +408,19 @@ namespace vendr {
 
                 	    std::optional<std::string> name = current["name"].value<std::string>();
                 	    if (!name)
-                    	    vendr::log::fatal(1, "index #{} in {} doesn't contain the required 'name' field!", n, filePath);
+                    	    vendr::log::fatal(1, _("index #{} in {} doesn't contain the required 'name' field!"), n, filePath);
 
                 	    std::optional<std::string> url = current["url"].value<std::string>();
                 	    if (!url)
-                    	    vendr::log::fatal(1, "table {} doesn't contain the required 'url' field!", n, filePath);
+                    	    vendr::log::fatal(1, _("table {} doesn't contain the required 'url' field!"), n, filePath);
 
                 	    std::optional<std::string> path = current["path"].value<std::string>();
                 	    if (!path)
-                    	    vendr::log::fatal(1, "table {} doesn't contain the required 'path' field!", n, filePath);
+                    	    vendr::log::fatal(1, _("table {} doesn't contain the required 'path' field!"), n, filePath);
 
                 	    std::optional<std::string> tag = current["tag"].value<std::string>();
                 	    if (!tag)
-                    	    vendr::log::fatal(1, "table {} doesn't contain the required 'tag' field!", n, filePath);
+                    	    vendr::log::fatal(1, _("table {} doesn't contain the required 'tag' field!"), n, filePath);
 
                 	    int depth = current["depth"].value_or(1);
 
@@ -445,12 +445,12 @@ namespace vendr {
                         // name required, fail otherwise
                 	    std::optional<std::string> name = current["name"].value<std::string>();
                 	    if (!name)
-                    	    vendr::log::fatal(1, "index #{} in {} doesn't contain the required 'name' field!", n, filePath);
+                    	    vendr::log::fatal(1, _("index #{} in {} doesn't contain the required 'name' field!"), n, filePath);
 
                         // url required, fail otherwise
                 	    std::optional<std::string> url = current["url"].value<std::string>();
                 	    if (!url)
-                    	    vendr::log::fatal(1, "table {} doesn't contain the required 'url' field!", n, filePath);
+                    	    vendr::log::fatal(1, _("table {} doesn't contain the required 'url' field!"), n, filePath);
 
                 	    std::string path = current["path"].value_or("");
 
@@ -463,7 +463,7 @@ namespace vendr {
 		    return vendr::targets{.repos = repositories, .files = files};
 
 	    } catch (const toml::parse_error& tomlerr) {
-		    vendr::log::err("error encountered while parsing file {}", filePath);
+		    vendr::log::err(_("error encountered while parsing file {}"), filePath);
             std::cerr << tomlerr << std::endl;
             std::exit(1);
         }
