@@ -20,6 +20,7 @@
           meson
           cmake
           scdoc
+          gettext
         ];
 
         buildInputs = with pkgs; [
