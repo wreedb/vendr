@@ -81,12 +81,12 @@ msgstr "Impossible de créer les dossiers menant à {}!"
 #: src/vendr.hpp:179
 #, c++-format
 msgid "file {} already exists, not overwriting"
-msgstr "fichier {} existe deja, "
+msgstr "fichier {} existe deja, pas d'ecrasement"
 
 #: src/vendr.hpp:185
 #, c++-format
 msgid "file {} already exists, overwriting"
-msgstr "fichier {} existe deja, pas d'ecrasement"
+msgstr "fichier {} existe deja, ecrasement"
 
 #: src/vendr.hpp:190
 #, c++-format
