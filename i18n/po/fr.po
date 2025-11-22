@@ -24,7 +24,7 @@ msgstr " (fatal) "
 #: src/help.hpp:100
 #, c++-format
 msgid "command returned exit code {}"
-msgstr "code de sortie retourné par la command {}"
+msgstr "code de sortie retourné par la commande{}"
 
 #: src/help.hpp:106
 msgid "options"
