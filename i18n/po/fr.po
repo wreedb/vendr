@@ -24,7 +24,7 @@ msgstr " (fatal) "
 #: src/help.hpp:100
 #, c++-format
 msgid "command returned exit code {}"
-msgstr "commande a renvoye le code sortie {}"
+msgstr "code de sortie retourné par la command {}"
 
 #: src/help.hpp:106
 msgid "options"
@@ -44,19 +44,19 @@ msgstr "  -w,--overwrite\tecrasez les fichiers existants"
 
 #: src/help.hpp:110
 msgid "  -v,--verbose\t\tproduce more output for operations"
-msgstr "  -v,--verbose\t\taffichez davantage de resultats concernant les actions"
+msgstr "  -v,--verbose\t\taffichez d'avantage de resultats concernant les actions"
 
 #: src/help.hpp:111
 msgid "  -h,--help\t\tdisplay usage info"
-msgstr "  -v,--verbose\t\taffichez davantage de resultats concernant les actions"
+msgstr "  -v,--verbose\t\taffichez d'avantage de resultats concernant les actions"
 
 #: src/help.hpp:112
 msgid "  -m,--manual\t\topen the manual page for vendr"
-msgstr "  -m,--manual\t\tlisez la page de manuel de Vendr"
+msgstr "  -m,--manual\t\utlisez la page de manuel de Vendr"
 
 #: src/help.hpp:113
 msgid "  -V,--version\t\tdisplay version info"
-msgstr "  -V,--version\t\taffichez les informations relatives a la version"
+msgstr "  -V,--version\t\taffichez les informations relatives à la version"
 
 #: src/help.hpp:117
 #, c++-format
@@ -66,32 +66,32 @@ msgstr "version {}"
 #: src/main.cpp:167
 #, c++-format
 msgid "no entry found by name '{}'"
-msgstr "n'ai pas trouve d'entree nommee {}"
+msgstr "pas d'entrée nommée trouvé {}"
 
 #: src/vendr.hpp:122
 #, c++-format
 msgid "invalid url provided: {}"
-msgstr "fourni une URL non valide: {}"
+msgstr "URL fourni non valide: {}"
 
 #: src/vendr.hpp:169
 #, c++-format
 msgid "failed to create parent directories for {}!"
-msgstr "n'ai pas reussi a creer les dossiers menant a {}!"
+msgstr "Impossible de créer les dossiers menant à {}!"
 
 #: src/vendr.hpp:179
 #, c++-format
 msgid "file {} already exists, not overwriting"
-msgstr "fichier {} existe deja, ne le supprime"
+msgstr "fichier {} existe deja, "
 
 #: src/vendr.hpp:185
 #, c++-format
 msgid "file {} already exists, overwriting"
-msgstr "fichier {} existe deja, supprime"
+msgstr "fichier {} existe deja, pas d'ecrasement"
 
 #: src/vendr.hpp:190
 #, c++-format
 msgid "filesystem error encounter while removing {}"
-msgstr "erreur du systeme de fichiers s'est produite pendant que supprimais le fichier {}"
+msgstr "Une erreur du systeme de fichiers s'est produite pendant la suppression du fichier {}"
 
 #: src/vendr.hpp:216 src/vendr.hpp:239
 msgid "download"
@@ -117,12 +117,12 @@ msgstr ""
 #: src/vendr.hpp:285
 #, c++-format
 msgid "directory {} already exists, not overwriting"
-msgstr "fichier {} existe deja, ne le supprime"
+msgstr "dossier {} existe deja, pas d'ecrasement"
 
 #: src/vendr.hpp:292
 #, c++-format
 msgid "directory {} already exists, overwriting"
-msgstr "fichier {} existe deja, supprime"
+msgstr "dossier {} existe deja, ecrasement"
 
 #: src/vendr.hpp:295
 #, c++-format
@@ -138,27 +138,27 @@ msgstr ""
 #: src/vendr.hpp:395
 #, c++-format
 msgid "path {} doesn't exist!"
-msgstr "chemin du fichier {} no le existe"
+msgstr "chemin {} n'existe pas"
 
 #: src/vendr.hpp:416 src/vendr.hpp:453
 #, c++-format
 msgid "index #{} in {} doesn't contain the required 'name' field!"
-msgstr "index #{} dans {} ne possede pas le 'name' requis"
+msgstr "index #{} dans {} ne possede pas le champs 'name' requis"
 
 #: src/vendr.hpp:420 src/vendr.hpp:458
 #, c++-format
 msgid "table {} doesn't contain the required 'url' field!"
-msgstr "table {} ne dispose pas le 'url' requis"
+msgstr "table {} ne possède pas le champs 'url' requis"
 
 #: src/vendr.hpp:424
 #, c++-format
 msgid "table {} doesn't contain the required 'path' field!"
-msgstr "table {} ne dispose pas le 'path' requis"
+msgstr "table {} ne possède pas le champs 'path' requis"
 
 #: src/vendr.hpp:428
 #, c++-format
 msgid "table {} doesn't contain the required 'tag' field!"
-msgstr "table {} ne dispose pas le 'tag' requis"
+msgstr "table {} ne possède pas le champs 'tag' requis"
 
 #: src/vendr.hpp:471
 #, c++-format
